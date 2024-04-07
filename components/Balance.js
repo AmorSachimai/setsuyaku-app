@@ -19,3 +19,4 @@ export const Balance = ({ incomeTotal, expenseItems }) => {
     </View>
   );
 };
+//
