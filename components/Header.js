@@ -12,7 +12,7 @@ export const Header = ({ date, setPrevMonth, setNextMonth }) => {
   const month = today.getMonth() + 1;
 
   return (
-    <View styles = {style.container}>
+    <View>
       <View>
         <Button onPress={() => setPrevMonth()} title="←前月"></Button>
         <Text>
