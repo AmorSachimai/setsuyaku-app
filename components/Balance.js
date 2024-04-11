@@ -2,12 +2,9 @@ import React from "react";
 import { View, Button, Text, StyleSheet } from "react-native";
 
 
-export const Balance = ({ incomeTotal, expenseItems }) => {
-  const expenseAmounts = expenseItems.map((expenseItem) => expenseItem.amount);
+export const Balance = ({ saveTotal }) => {
 
-  const expenseTotal = expenseAmounts.reduce((acc, cur) => (acc += cur), 0);
-
-  const balance = incomeTotal - expenseTotal;
+  const balance = saveTotal;
 
   return (
     <View>
