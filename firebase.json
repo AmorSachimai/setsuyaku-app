@@ -16,11 +16,36 @@
     }
   ],
   "hosting": {
+    "site": "setsuyaku-app-component",
     "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ]
+  },
+  "emulators": {
+    "auth": {
+      "name": "auth",
+      "host": "localhost",
+      "port": 9099
+    },
+    "functions": {
+      "name": "functions",
+      "host": "localhost",
+      "port": 5001
+    },
+    "firestore": {
+      "name": "firestore",
+      "host": "localhost",
+      "port": 8080
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
   }
 }
