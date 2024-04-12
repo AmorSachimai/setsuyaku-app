@@ -155,7 +155,7 @@ function Home() {
         />
         {/* <Balance 
         saveTotal={saveTotal}  
-        />  */}
+        />   */}
       </View>
     </View>
   );
