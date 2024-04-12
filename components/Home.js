@@ -1,4 +1,4 @@
-// import { db } from "../firebase/Firebase";
+//import { db } from "../firebase/Firebase";
 import { Header } from "./Header";
 import { Balance } from "./Balance";
 import React, { useState, useContext, useEffect } from "react";
