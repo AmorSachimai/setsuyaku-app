@@ -8,6 +8,7 @@ import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
@@ -28,7 +29,6 @@ const firebaseConfig = {
   appId: "1:884270687130:web:e697fdcd97ebc6563dd023",
   measurementId: "G-GGMLW2R76S",
 };
-
 
 
 // Initialize Firebase
