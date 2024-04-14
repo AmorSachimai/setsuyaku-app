@@ -11,9 +11,9 @@ function Home() {
   const [date, setDate] = useState(new Date());
   const [saveItems, setSaveItems] = useState([]);
   //const [expenseItems, setExpenseItems] = useState([]);
-  const [inputText, setInputText] = useState("");
-  const [inputAmount, setInputAmount] = useState(0);
-  const [type, setType] = useState("inc");
+  //const [inputText, setInputText] = useState("");
+  //const [inputAmount, setInputAmount] = useState(0);
+  //const [type, setType] = useState("inc");
 
   // const { currentUser } = useContext(AuthContext);
 
