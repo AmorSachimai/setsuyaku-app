@@ -1,3 +1,4 @@
+//import { auth } from "../firebase/Firebase"
 import { Header2 } from "./Header2";
 import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
