@@ -5,8 +5,10 @@ import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { totalCalc } from "./TotalSave";
 //import { AuthContext } from "../auth/AuthProvider";
+
 import firebase from "firebase/app";
 import "firebase/firestore";
+
 
 function Home() {
   const [date, setDate] = useState(new Date());
