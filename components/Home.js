@@ -5,7 +5,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { totalCalc } from "./TotalSave";
 //import { AuthContext } from "../auth/AuthProvider";
-
+// おためし
 
 function Home() {
   const [date, setDate] = useState(new Date());
