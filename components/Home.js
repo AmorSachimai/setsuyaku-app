@@ -5,7 +5,10 @@ import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { totalCalc } from "./TotalSave";
 //import { AuthContext } from "../auth/AuthProvider";
-// おためし
+
+import firebase from "firebase/app";
+import "firebase/firestore";
+
 
 function Home() {
   const [date, setDate] = useState(new Date());
@@ -16,6 +19,21 @@ function Home() {
   //const [type, setType] = useState("inc");
 
   // const { currentUser } = useContext(AuthContext);
+
+
+
+
+    // useEffect(() => {
+    //   getSaveData();
+      
+    // }, []);
+
+    // useEffect(() => {
+    //   getSaveData();
+      
+    // }, [date]);
+
+
 
   //for Header
   const setPrevMonth = () => {
@@ -48,22 +66,22 @@ function Home() {
   const thisMonth = today.getMonth() + 1;
 
   // //for balance
-  const getSaveData = () => {
-    const saveData = db.collection("SaveItems");
-    saveData
-      //.where ("uid","==", currentUser.uid )
-      .orderBy("date")
-      .startAt(startOfMonth(date))
-      .endAt(endOfMonth(date))
-      .onSnapshot((query)=>{
-        const saveItems = [];
-          query.forEach((doc) =>
-          saveItems.push({ ...doc.data(), docId: doc.id 
-          })
-        )
-          setsaveItems(saveItems);
-      });
-  };
+  // const getSaveData = () => {
+  //   const saveData = db.collection("SaveItems");
+  //   saveData
+  //     //.where ("uid","==", currentUser.uid )
+  //     .orderBy("date")
+  //     .startAt(startOfMonth(date))
+  //     .endAt(endOfMonth(date))
+  //     .onSnapshot((query)=>{
+  //       const saveItems = [];
+  //         query.forEach((doc) =>
+  //         saveItems.push({ ...doc.data(), docId: doc.id 
+  //         })
+  //       )
+  //         setsaveItems(saveItems);
+  //     });
+  // };
   // //firebase IncomeData
   // const getIncomeData = () => {
   //   const incomeData = db.collection("incomeItems");
@@ -153,9 +171,9 @@ function Home() {
           setPrevMonth={setPrevMonth}
           setNextMonth={setNextMonth}
         />
-        {/* <Balance 
-        saveTotal={saveTotal}  
-        />  */}
+        <Balance 
+          saveTotal={saveTotal}  
+        />  
       </View>
     </View>
   );
