@@ -12,7 +12,7 @@ export const Header2 = () => {
   return (
     <View>
       <View>
-        <Text>こちらに実装</Text>
+        <Text></Text>
       </View>
     </View>
   );
