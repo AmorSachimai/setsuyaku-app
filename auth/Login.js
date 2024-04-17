@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { auth } from "../firebase";
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -48,6 +48,10 @@ const Login = () => {
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>ログイン</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.navigate("登録")}>
+        <Text style={styles.registerLink}>登録はこちら</Text>
+      </TouchableOpacity>
     </KeyboardAvoidingView>
   );
 };
@@ -82,6 +86,11 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff", // ホワイト
+  },
+  registerLink: {
+    marginTop: 10,
+    color: "#4682b4", // ダークスレートブルー
+    textDecorationLine: "underline", // 下線を追加
   },
 });
 

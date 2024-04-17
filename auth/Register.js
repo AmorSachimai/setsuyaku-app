@@ -8,6 +8,19 @@ import {
   StyleSheet,
 } from "react-native";
 
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+//略
+
+const handleRegister = async () => {
+  try {
+    const user = await createUserWithEmailAndPassword(auth, email, password);
+    console.log(user);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +48,11 @@ const Register = () => {
           autoCapitalize="none"
         />
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={handleRegister}
+        // disabled={!email || !password}
+      >
         <Text style={styles.buttonText}>登録する</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
