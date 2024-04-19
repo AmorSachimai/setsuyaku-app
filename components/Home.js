@@ -1,6 +1,7 @@
 import { db } from "../firebase/Firebase";
 import { Header } from "./Header";
 import { Balance } from "./Balance";
+
 import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { totalCalc } from "./TotalSave";
@@ -174,6 +175,8 @@ function Home() {
         <Balance 
           saveTotal={saveTotal}  
         />  
+        
+
       </View>
     </View>
   );
