@@ -11,9 +11,9 @@ export const Header2 = () => {
 
   return (
     <View>
-      <View>
-        <Text></Text>
-      </View>
+      
+        <Text>確認画面</Text>
+    
     </View>
   );
 

@@ -6,7 +6,7 @@ import { auth } from "../firebase/Firebase"
 import { Header2 } from "./Header2";
 import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-
+import { Logout } from "../auth/Logout";
 
 
 function Home2() {
@@ -14,8 +14,8 @@ function Home2() {
   return (
     <View>
       <View>
-        <Header2/>
-        
+        <Header2 />
+        <Logout />
       </View>
     </View>
   );
