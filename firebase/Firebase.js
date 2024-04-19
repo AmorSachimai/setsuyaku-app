@@ -12,7 +12,6 @@ import { initializeAuth, getReactNativePersistence } from "firebase/auth";
 
 const firebaseConfig = {
 
-
 };
 
 
