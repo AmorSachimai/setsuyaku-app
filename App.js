@@ -50,8 +50,8 @@ export default function App() {
                     headerStyle: { backgroundColor: "#ADD8E6" },
                   }}
                 >
-                  <Tab.Screen name="ホーム" component={Home} />
-                  <Tab.Screen name="あ" component={Home2} />
+                  <Tab.Screen name="ためる" component={Home} />
+                  <Tab.Screen name="ごほうび" component={Home2} />
                 </Tab.Navigator>
               )}
             </Stack.Screen>
