@@ -1,6 +1,8 @@
 import { db } from "../firebase/Firebase";
 import { Header } from "./Header";
 import { Balance } from "./Balance";
+import AddSavingForm from './AddItems';
+import GoalAmountForm from "./GoalAmountForm";
 
 import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -172,9 +174,13 @@ function Home() {
           setPrevMonth={setPrevMonth}
           setNextMonth={setNextMonth}
         />
+        <GoalAmountForm
+        />
         <Balance 
           saveTotal={saveTotal}  
-        />  
+        />
+        <AddSavingForm
+        />
         
 
       </View>
