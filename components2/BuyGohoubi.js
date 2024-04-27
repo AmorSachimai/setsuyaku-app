@@ -1,3 +1,5 @@
+//ひもづけられてない
+
 import React, { useState } from "react";
 import {
   Alert,
@@ -10,9 +12,21 @@ import {
 } from "react-native";
 import Dialog from "react-native-dialog";
 
-export const BuyGohoubi = () => {
+export const BuyGohoubi = ({
+  
+  addExpense,
+  
+  setInputText,
+  inputAmount,
+  setInputAmount,
+  type,
+  setType,
+  selectedMonth,
+  thisMonth,
+}) => {
   const [visible, setVisible] = useState(false);
   const [price, setPrice] = useState("");
+  const [thing, setThing] = useState("");
   const [total, setTotal] = useState(0);
 
   const handleBuy = () => {
@@ -23,13 +37,28 @@ export const BuyGohoubi = () => {
     const newPrice = parseFloat(price);
     setTotal(total + newPrice);
     //個人のアカウントにご褒美額をひもづけ
-    setPrice(""); 
+    setPrice("");
+
     setVisible(false);
   };
 
   const handleCloseDialog = () => {
-    setPrice(""); 
+    setPrice("");
+
     setVisible(false);
+  };
+
+  const inputAmountHandler = (e) => {
+    setInputAmount(parseInt(e.target.value));
+  };
+
+  const inputTextHandler = (e) => {
+    setInputText(e.target.value);
+  };
+
+  const reset = () => {
+    setInputText("");
+    setInputAmount("");
   };
 
   return (
@@ -39,11 +68,22 @@ export const BuyGohoubi = () => {
         <TextInput
           style={styles.input}
           placeholder="値段"
-          placeholderTextColor="#999" 
+          placeholderTextColor="#999"
           keyboardType="numeric"
           value={price}
           onChangeText={setPrice}
           underlineColorAndroid="transparent" // Hide underline on Android
+          onchange={inputAmountHandler}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="何を買ったの？"
+          placeholderTextColor="#999"
+          keyboardType="default"
+          value={thing}
+          onChangeText={setThing}
+          underlineColorAndroid="transparent" // Hide underline on Android
+          onchange={inputTextHandler}
         />
         <Dialog.Button
           label="キャンセル"
@@ -67,6 +107,7 @@ export const BuyGohoubi = () => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   dialogTitle: {
