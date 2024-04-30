@@ -153,12 +153,12 @@ function Home() {
   //       amount,
   //       date,
   //     })
-  //     .then((response) => {
-  //       setExpenseItems([
-  //         ...expenseItems,
-  //         { text: inputText, amount: inputAmount, docId: docId, date: date },
-  //       ]);
-  //     });
+      // .then((response) => {
+      //   setExpenseItems([
+      //     ...expenseItems,
+      //     { text: inputText, amount: inputAmount, docId: docId, date: date },
+      //   ]);
+      // });
   // };
 
   // const deleteExpense = (docId) => {

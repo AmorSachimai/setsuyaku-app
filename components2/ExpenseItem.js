@@ -14,14 +14,19 @@ export const ExpenseItem = ({
   };
 
   const percentage = () => {
-    if (incomeTotal >= 1) {
-      return `${Math.round((expenseAmount) * 100)} %`;
-    } else {
+    // if (incomeTotal >= 1) {
+    //   return `${Math.round((expenseAmount) * 100)} %`;
+    // } else {
       return "--";
-    }
+    // }
   };
 
   const showThisMonth = () => {
+    // return (
+        // <View>
+        //     <Text>aaaaa</Text>
+        // </View>
+    // );
     return (
       <View style={styles.thisMonthList}>
         <Text style={styles.text}>{expenseText}</Text>
@@ -29,7 +34,9 @@ export const ExpenseItem = ({
           -{Number(expenseAmount).toLocaleString()}円
         </Text>
         <Text style={styles.percentage}>{percentage()}</Text>
-        <TouchableOpacity style={styles.deleteButton} onPress={deleteHandler}>
+        <TouchableOpacity 
+          style={styles.deleteButton} 
+          onPress={deleteHandler}>
           <Text style={styles.deleteButtonText}>×</Text>
         </TouchableOpacity>
       </View>
@@ -47,8 +54,8 @@ export const ExpenseItem = ({
       </View>
     );
   };
-
-  return <>{thisMonth === selectedMonth ? showThisMonth() : showPastMonth()}</>;
+   //return <>{showThisMonth()}</>;
+  return <View>{thisMonth === selectedMonth ? showThisMonth() : showPastMonth()}</View>;
 };
 
 const styles = {
