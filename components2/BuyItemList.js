@@ -1,18 +1,17 @@
 import React from "react";
 import { View, Text, ScrollView } from "react-native";
-//import ExpenseItem from "./ExpenseItem";
+import ExpenseItem from "./ExpenseItem";
 
 export const BuyItemsList = ({
 
   deleteExpense,
 
   expenseItems,
-  
   selectedMonth,
   thisMonth,
 }) => {
   return (
-    <View style={{ flex: 1 }}>
+    <View>
       <ScrollView>
         <View>
           <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>
