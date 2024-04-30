@@ -12,15 +12,13 @@ import {
 } from "react-native";
 import Dialog from "react-native-dialog";
 
-export const BuyGohoubi = ({
+export const BuyGohoubi  = ({
   
   addExpense,
-  
+  expenseItems,
   setInputText,
   inputAmount,
   setInputAmount,
-  type,
-  setType,
   selectedMonth,
   thisMonth,
 }) => {
@@ -34,27 +32,22 @@ export const BuyGohoubi = ({
       Alert.alert("エラー", "値段を入力してください。");
       return;
     }
-    const newPrice = parseFloat(price);
-    setTotal(total + newPrice);
+    // const newPrice = parseFloat(price);
+    // setTotal(total + newPrice);
+    // expenseItems.amount = total;
     //個人のアカウントにご褒美額をひもづけ
     setPrice("");
-
+    setThing("");
     setVisible(false);
+    console.log("Saved", { price,thing });
   };
 
   const handleCloseDialog = () => {
     setPrice("");
-
     setVisible(false);
   };
 
-  const inputAmountHandler = (e) => {
-    setInputAmount(parseInt(e.target.value));
-  };
 
-  const inputTextHandler = (e) => {
-    setInputText(e.target.value);
-  };
 
   const reset = () => {
     setInputText("");
@@ -73,7 +66,7 @@ export const BuyGohoubi = ({
           value={price}
           onChangeText={setPrice}
           underlineColorAndroid="transparent" // Hide underline on Android
-          onchange={inputAmountHandler}
+          // onchange={handleBuy}
         />
         <TextInput
           style={styles.input}
@@ -83,16 +76,28 @@ export const BuyGohoubi = ({
           value={thing}
           onChangeText={setThing}
           underlineColorAndroid="transparent" // Hide underline on Android
-          onchange={inputTextHandler}
+          // onchange={handleBuy}
         />
         <Dialog.Button
           label="キャンセル"
           color="red"
           onPress={handleCloseDialog}
         />
-        <Dialog.Button label="買う" onPress={handleBuy} />
+        <Dialog.Button
+          label="買う"
+          
+          
+          onPress={
+            () => {
+              addExpense(thing, price);
+              handleBuy();
+            }
+            
+          }
+        />
       </Dialog.Container>
-      <Text style={styles.totalText}>{total.toFixed(2)}円</Text>
+
+      {/* <Text style={styles.totalText}>{total}円</Text> */}
 
       <TouchableOpacity
         style={styles.buyButton}
@@ -108,8 +113,11 @@ export const BuyGohoubi = ({
   );
 };
 
+// export default {total};
 
 const styles = StyleSheet.create({
+
+
   dialogTitle: {
     fontSize: 20,
     marginBottom: 20,
@@ -121,10 +129,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 20,
-    color: "#FFFFFF", 
+    color: "#FFFFFF",
   },
   totalText: {
-    marginTop: 20,
+    marginTop: 50,
     fontSize: 35,
     fontWeight: "bold",
     color: "#333",
@@ -132,14 +140,16 @@ const styles = StyleSheet.create({
   },
 
   buyButton: {
-    marginTop: 50,
-    backgroundColor: "lightblue", 
+    marginTop: 100,
+    marginLeft: 100,
+    marginRight: 200,
+    backgroundColor: "lightblue",
     paddingVertical: 20,
     paddingHorizontal: 20,
-    borderRadius: 15, 
+    borderRadius: 15,
   },
   buyButtonText: {
-    color: "#000000", 
+    color: "#000000",
     fontSize: 18,
     fontWeight: "bold",
   },

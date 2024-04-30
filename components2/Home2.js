@@ -9,16 +9,18 @@ import { StyleSheet, Text, View } from "react-native";
 import { Logout } from "../auth/Logout";
 import { BuyGohoubi } from "./BuyGohoubi";
 import { Balance } from "../components/Balance";
-import { db } from "../firebase/Firebase";
-import firebase from "firebase/app";
-import "firebase/firestore";
+import { db, date } from "../firebase/Firebase";
+import {collection, setDoc,addDoc, doc, add, Timestamp} from "firebase/firestore";
 import {BuyItemsList} from "./BuyItemList"
+import {TotalBuy} from "./TotalBuy"
+import firebase from "firebase/app";
+
 
 
 function Home2() {
   const [date, setDate] = useState(new Date());
   const [expenseItems, setExpenseItems] = useState([]);
-  //const [expenseItems, setExpenseItems] = useState([]);
+  //const [expenseAmount, setExpenseAmount] = useState(0);
   //const [inputText, setInputText] = useState("");
   //const [inputAmount, setInputAmount] = useState(0);
   //const [type, setType] = useState("inc");
@@ -83,26 +85,29 @@ function Home2() {
   };
 
   const addExpense = (text, amount) => {
-    const docId = Math.random().toString(32).substring(2);
-    const date = firebase.firestore.Timestamp.now();
-    db.collection("expenseItems")
-      .doc(docId)
-      .set({
-        uid: currentUser.uid,
-        text,
-        amount,
-        date,
-      })
-      .then((response) => {
-        setExpenseItems([
-          ...expenseItems,
-          { text: inputText, amount: inputAmount, docId: docId, date: date },
-        ]);
-      });
-  };
+    //const docId = Math.random().toString(32).substring(2);
+    const expenseRef = collection(db, "expenses");
+      // 現在の日付を取得
+  const currentDate = Timestamp.now();
 
+  // 新しいドキュメントを追加
+  //adddocだめかも情報のけしかたがわからない
+    addDoc( (expenseRef ), {
+      date: currentDate,
+      text: text,
+      amount: amount
+    })
+    .then((docRef) => {
+      console.log("Document written with ID: ", docRef.id);
+    })
+    .catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+};
+
+//後でいい
   const deleteExpense = (docId) => {
-    db.collection("expenseItems").doc(docId).delete();
+    collection(db, "expenseItems").doc(docId).delete();
   };
 
   return (
@@ -113,8 +118,12 @@ function Home2() {
         setNextMonth={setNextMonth}
       />
       {/* <Balance saveTotal={saveTotal} /> */}
-
-      <BuyGohoubi />
+      <TotalBuy />
+      <BuyGohoubi
+        expenseItems={expenseItems}
+        addExpense={addExpense}
+        
+      />
       <Logout />
       <BuyItemsList
         deleteExpense={deleteExpense}
