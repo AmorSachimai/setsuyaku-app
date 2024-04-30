@@ -1,8 +1,7 @@
 //こちらでは今までの月で計上された節約額の合計からギフトを送ったり、
 //ご褒美を購入したりすることにより引き算の処理がなされます
 
-
-import { auth } from "../firebase/Firebase"
+import { auth } from "../firebase/Firebase";
 import { Header2 } from "./Header2";
 import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -10,19 +9,24 @@ import { Logout } from "../auth/Logout";
 import { BuyGohoubi } from "./BuyGohoubi";
 import { Balance } from "../components/Balance";
 import { db, date } from "../firebase/Firebase";
-import {collection, setDoc,addDoc, doc, add, Timestamp} from "firebase/firestore";
-import {BuyItemsList} from "./BuyItemList"
-import {TotalBuy} from "./TotalBuy"
+import {
+  collection,
+  setDoc,
+  addDoc,
+  doc,
+  add,
+  Timestamp,
+} from "firebase/firestore";
+import { BuyItemsList } from "./BuyItemList";
+import { TotalBuy } from "./TotalBuy";
 import firebase from "firebase/app";
-
-
 
 function Home2() {
   const [date, setDate] = useState(new Date());
   const [expenseItems, setExpenseItems] = useState([]);
   //const [expenseAmount, setExpenseAmount] = useState(0);
-  //const [inputText, setInputText] = useState("");
-  //const [inputAmount, setInputAmount] = useState(0);
+  const [inputText, setInputText] = useState("");
+  const [inputAmount, setInputAmount] = useState(0);
   //const [type, setType] = useState("inc");
 
   const currentUser = auth.currentUser;
@@ -85,29 +89,63 @@ function Home2() {
   };
 
   const addExpense = (text, amount) => {
-    //const docId = Math.random().toString(32).substring(2);
-    const expenseRef = collection(db, "expenses");
-      // 現在の日付を取得
-  const currentDate = Timestamp.now();
+    const docId = Math.random().toString(32).substring(2);
+    //const expenseItems = collection(db, "expenses");
+    // 現在の日付を取得
+    const date = Timestamp.now();
 
-  // 新しいドキュメントを追加
-  //adddocだめかも情報のけしかたがわからない
-    addDoc( (expenseRef ), {
-      date: currentDate,
-      text: text,
-      amount: amount
+    // 新しいドキュメントを追加
+    //adddocだめかも情報のけしかたがわからない
+    addDoc(collection(db, "expenseItems"), {
+      uid: currentUser.uid,
+      text,
+      amount,
+      docId,
+      date,
     })
-    .then((docRef) => {
-      console.log("Document written with ID: ", docRef.id);
-    })
-    .catch((error) => {
-      console.error("Error adding document: ", error);
-    });
-};
+      .then((response) => {
+        console.log("Document written with ID: ", docId);
+        let _copy = JSON.parse(JSON.stringify(expenseItems)); // 複製
+        _copy.text=text,
+        _copy.amount=amount,
+        _copy.docId=docId,
+        _copy.date=date,
+        setExpenseItems(_copy)
+        console.log(_copy.text, _copy.docId, _copy.amount, _copy.date);
+        //一個前の要素が入っているなんで？
+        console.log(
+          expenseItems.text,
+          expenseItems.docId,
+          expenseItems.amount,
+          expenseItems.date
+        );
 
-//後でいい
+        // setExpenseItems([
+        //   ...expenseItems,
+        //   { text: text, amount: amount, docId: docId, date: date },
+        // ]);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+  };
+
+  //後でいい
   const deleteExpense = (docId) => {
-    collection(db, "expenseItems").doc(docId).delete();
+    // Firestore データベースへの参照を取得
+
+    // "expenseItems" コレクションへの参照を取得
+    const expenseRef = collection(db, "expenses");
+
+    // 指定されたドキュメントを削除
+    const docRef = doc(expenseRef, docId);
+    deleteDoc(docRef)
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
   };
 
   return (
@@ -119,11 +157,7 @@ function Home2() {
       />
       {/* <Balance saveTotal={saveTotal} /> */}
       <TotalBuy />
-      <BuyGohoubi
-        expenseItems={expenseItems}
-        addExpense={addExpense}
-        
-      />
+      <BuyGohoubi expenseItems={expenseItems} addExpense={addExpense} />
       <Logout />
       <BuyItemsList
         deleteExpense={deleteExpense}

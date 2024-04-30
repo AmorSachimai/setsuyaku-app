@@ -43,7 +43,8 @@ export const BuyGohoubi  = ({
   };
 
   const handleCloseDialog = () => {
-    setPrice("");
+    // setPrice("");
+    // setThing("");
     setVisible(false);
   };
 
