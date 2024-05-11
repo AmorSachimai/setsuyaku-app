@@ -28,33 +28,29 @@ function Home2() {
   const [inputText, setInputText] = useState("");
   const [inputAmount, setInputAmount] = useState(0);
   //const [type, setType] = useState("inc");
+  const [type, setType] = useState("inc");
 
-  const currentUser = auth.currentUser;
-
-  // useEffect(() => {
-  //   getSaveData();
-
-  // }, []);
-
-  // useEffect(() => {
-  //   getSaveData();
-
-  // }, [date]);
-
-  //for Header
-  const setPrevMonth = () => {
-    const year = date.getFullYear();
-    const month = date.getMonth() - 1;
+ 
     const day = date.getDate();
-    setDate(new Date(year, month, day));
-  };
+    //setDate(new Date(year, month, day));
 
-  const setNextMonth = () => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    setDate(new Date(year, month, day));
-  };
+
+
+    const setPrevMonth = () => {
+      setDate((prevDate) => {
+        const prevMonth = prevDate.getMonth() - 1;
+        return new Date(prevDate.getFullYear(), prevMonth, 1);
+      });
+    };
+
+    const setNextMonth = () => {
+      setDate((prevDate) => {
+        const nextMonth = prevDate.getMonth() + 1;
+        return new Date(prevDate.getFullYear(), nextMonth, 1);
+      });
+    };
+
+
 
   //get first date of the month
   const startOfMonth = (date) => {
@@ -72,21 +68,21 @@ function Home2() {
   const thisMonth = today.getMonth() + 1;
 
   //firebase Expense data
-  const getExpenseData = () => {
-    const expenseData = db.collection("expenseItems");
-    expenseData
-      .where("uid", "==", currentUser.uid)
-      .orderBy("date")
-      .startAt(startOfMonth(date))
-      .endAt(endOfMonth(date))
-      .onSnapshot((query) => {
-        const expenseItems = [];
-        query.forEach((doc) =>
-          expenseItems.push({ ...doc.data(), docId: doc.id })
-        );
-        setExpenseItems(expenseItems);
-      });
-  };
+  // const getExpenseData = () => {
+  //   const expenseData = db.collection("expenseItems");
+  //   expenseData
+  //     .where("uid", "==", currentUser.uid)
+  //     .orderBy("date")
+  //     .startAt(startOfMonth(date))
+  //     .endAt(endOfMonth(date))
+  //     .onSnapshot((query) => {
+  //       const expenseItems = [];
+  //       query.forEach((doc) =>
+  //         expenseItems.push({ ...doc.data(), docId: doc.id })
+  //       );
+  //       setExpenseItems(expenseItems);
+  //     });
+  // };
 
   const addExpense = (text, amount) => {
     const docId = Math.random().toString(32).substring(2);
@@ -102,44 +98,35 @@ function Home2() {
       amount,
       docId,
       date,
-    })
-      .then((response) => {
-        console.log("Document written with ID: ", docId);
-        let _copy = JSON.parse(JSON.stringify(expenseItems)); // 複製
-        _copy.text=text,
-        _copy.amount=amount,
-        _copy.docId=docId,
-        _copy.date=date,
-        setExpenseItems(_copy)
-        console.log(_copy.text, _copy.docId, _copy.amount, _copy.date);
-        //一個前の要素が入っているなんで？
-        console.log(
-          expenseItems.text,
-          expenseItems.docId,
-          expenseItems.amount,
-          expenseItems.date
-        );
+    }).then((response) => {
+      console.log("Document written with ID: ", docId);
+      let _copy = JSON.parse(JSON.stringify(expenseItems)); // 複製
+      (_copy.text = text),
+        (_copy.amount = amount),
+        (_copy.docId = docId),
+        (_copy.date = date),
+        setExpenseItems(_copy);
+      console.log(_copy.text, _copy.docId, _copy.amount, _copy.date);
+      
 
-        // setExpenseItems([
-        //   ...expenseItems,
-        //   { text: text, amount: amount, docId: docId, date: date },
-        // ]);
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
+      // setExpenseItems([
+      //   ...expenseItems,
+      //   { text: text, amount: amount, docId: docId, date: date },
+      // ]);
+    });
+    console.log(
+      expenseItems.text,
+      expenseItems.docId,
+      expenseItems.amount,
+      expenseItems.date
+    );
   };
 
   //後でいい
   const deleteExpense = (docId) => {
     // Firestore データベースへの参照を取得
 
-    // "expenseItems" コレクションへの参照を取得
-    const expenseRef = collection(db, "expenses");
-
-    // 指定されたドキュメントを削除
-    const docRef = doc(expenseRef, docId);
-    deleteDoc(docRef)
+    deleteDoc(doc(collection(db, "expenses"), docId))
       .then(() => {
         console.log("Document successfully deleted!");
       })
