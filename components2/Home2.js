@@ -1,7 +1,7 @@
 //こちらでは今までの月で計上された節約額の合計からギフトを送ったり、
 //ご褒美を購入したりすることにより引き算の処理がなされます
 
-import { auth } from "../firebase/Firebase";
+
 import { Header2 } from "./Header2";
 import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -9,6 +9,7 @@ import { Logout } from "../auth/Logout";
 import { BuyGohoubi } from "./BuyGohoubi";
 import { Balance } from "../components/Balance";
 import { db, date } from "../firebase/Firebase";
+import { auth } from "../firebase/Firebase";
 import {
   collection,
   setDoc,
@@ -16,6 +17,7 @@ import {
   doc,
   add,
   Timestamp,
+  getAuth,
 } from "firebase/firestore";
 import { BuyItemsList } from "./BuyItemList";
 import { TotalBuy } from "./TotalBuy";
@@ -30,7 +32,7 @@ function Home2() {
   //const [type, setType] = useState("inc");
   const [type, setType] = useState("inc");
 
- 
+  const { currentUser } = auth.currentUser;
     const day = date.getDate();
     //setDate(new Date(year, month, day));
 
@@ -93,7 +95,7 @@ function Home2() {
     // 新しいドキュメントを追加
     //adddocだめかも情報のけしかたがわからない
     addDoc(collection(db, "expenseItems"), {
-      uid: currentUser.uid,
+      uid: getAuth().getUser(uid),
       text,
       amount,
       docId,
@@ -106,20 +108,14 @@ function Home2() {
         (_copy.docId = docId),
         (_copy.date = date),
         setExpenseItems(_copy);
-      console.log(_copy.text, _copy.docId, _copy.amount, _copy.date);
-      
-
-      // setExpenseItems([
-      //   ...expenseItems,
-      //   { text: text, amount: amount, docId: docId, date: date },
-      // ]);
+      //console.log(_copy.text, _copy.docId, _copy.amount, _copy.date);
     });
-    console.log(
-      expenseItems.text,
-      expenseItems.docId,
-      expenseItems.amount,
-      expenseItems.date
-    );
+    // console.log(
+    //   expenseItems.text,
+    //   expenseItems.docId,
+    //   expenseItems.amount,
+    //   expenseItems.date
+    // );
   };
 
   //後でいい
