@@ -6,7 +6,7 @@ export const TotalBuy = ({ getExpense }) => {
 const getTotalExpense =() =>
   {
     //totalcalを実装する必要アリよ
-    const totalExpense = () => Totalcal.getExpense();
+    const totalExpense = () => Totalcal().getExpense;
   return totalExpense;
 }
   return (
