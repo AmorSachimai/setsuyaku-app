@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   Alert,
@@ -47,32 +46,43 @@ export const BuyGohoubi = ({
     setInputAmount("");
   };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.dialogTitle}>ご褒美を買う</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="値段"
-        placeholderTextColor="#999"
-        keyboardType="numeric"
-        value={price}
-        onChangeText={setPrice}
-        underlineColorAndroid="transparent" // Hide underline on Android
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="何を買ったの？"
-        placeholderTextColor="#999"
-        keyboardType="default"
-        value={thing}
-        onChangeText={setThing}
-        underlineColorAndroid="transparent" // Hide underline on Android
-      />
-      <View style={styles.buttonContainer}>
-        <Button title="キャンセル" color="red" onPress={reset} />
-        <Button title="買う" onPress={handleBuy} />
+  const thisMonthForm = () => {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.dialogTitle}>ご褒美を買う</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="値段"
+          placeholderTextColor="#999"
+          keyboardType="numeric"
+          value={price}
+          onChangeText={setPrice}
+          underlineColorAndroid="transparent" // Hide underline on Android
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="何を買ったの？"
+          placeholderTextColor="#999"
+          keyboardType="default"
+          value={thing}
+          onChangeText={setThing}
+          underlineColorAndroid="transparent" // Hide underline on Android
+        />
+        <View style={styles.buttonContainer}>
+          <Button title="キャンセル" color="red" onPress={reset} />
+          <Button title="買う" onPress={handleBuy} />
+        </View>
+        {/* <Text style={styles.totalText}>{total}円</Text> */}
       </View>
-      <Text style={styles.totalText}>{total}円</Text>
+    );
+  };
+  const otherMonthForm = () => {
+    return <View></View>;
+  };
+
+  return (
+    <View>
+      {thisMonth === selectedMonth ? thisMonthForm() : otherMonthForm()}
     </View>
   );
 };
@@ -109,10 +119,6 @@ const styles = StyleSheet.create({
 
 export default BuyGohoubi;
 
-
-
-
-
 // //ひもづけられてない
 
 // import React, { useState } from "react";
@@ -128,7 +134,7 @@ export default BuyGohoubi;
 // import Dialog from "react-native-dialog";
 
 // export const BuyGohoubi  = ({
-  
+
 //   addExpense,
 //   expenseItems,
 //   setInputText,
@@ -162,8 +168,6 @@ export default BuyGohoubi;
 //     // setThing("");
 //     setVisible(false);
 //   };
-
-
 
 //   const reset = () => {
 //     setInputText("");
@@ -201,14 +205,13 @@ export default BuyGohoubi;
 //         />
 //         <Dialog.Button
 //           label="買う"
-          
-          
+
 //           onPress={
 //             () => {
 //               addExpense(thing, price);
 //               handleBuy();
 //             }
-            
+
 //           }
 //         />
 //       </Dialog.Container>
@@ -232,7 +235,6 @@ export default BuyGohoubi;
 // // export default {total};
 
 // const styles = StyleSheet.create({
-
 
 //   dialogTitle: {
 //     fontSize: 20,

@@ -100,8 +100,8 @@ export const BuyItemsList = ({
             <ExpenseItem
               key={expenseItem.docId}
               deleteExpense={deleteExpense}
-              expenseText={expenseItem.thing} // Adjust based on your data structure
-              expenseAmount={expenseItem.price} // Adjust based on your data structure
+              expenseText={expenseItem.text} // Adjust based on your data structure
+              expenseAmount={expenseItem.amount} // Adjust based on your data structure
               expenseItem={expenseItem}
               selectedMonth={selectedMonth}
               thisMonth={thisMonth}
@@ -113,5 +113,5 @@ export const BuyItemsList = ({
   );
 };
 
-export default BuyItemsList; // Ensure the component is exported
+//export default BuyItemsList; // Ensure the component is exported
 
