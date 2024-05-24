@@ -274,11 +274,13 @@ function Home2() {
     }
   };
 
+
+  
   const expenseTotal = totalCalc(expenseItems);
 
   return (
     <View>
-      {/* <Text>{expenseTotal}</Text> */}
+       <Text>{expenseTotal}</Text> 
       <Header2
         date={date}
         setPrevMonth={setPrevMonth}
