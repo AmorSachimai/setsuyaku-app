@@ -169,6 +169,7 @@ import {
 } from "firebase/firestore";
 import { BuyItemsList } from "./BuyItemList";
 import { TotalBuy } from "./TotalBuy";
+import { totalCalc } from "./TotalExpense";
 
 function Home2() {
   const [date, setDate] = useState(new Date());
@@ -218,7 +219,7 @@ function Home2() {
   const thisMonth = today.getMonth() + 1;
 
   const getExpense = () => {
-    const expenseData = db.collection("expenseItems");
+    const expenseData = collection(db, "expenseItems");
     expenseData
       .where("uid", "==", currentUser.uid)
       .orderBy("date")
@@ -233,7 +234,7 @@ function Home2() {
       });
   };
 
-  const addExpense = async (text, amount) => {
+  const addExpense = async (text, amount, time) => {
     if (!currentUser) {
       console.error("User is not authenticated");
       return;
@@ -248,6 +249,7 @@ function Home2() {
         uid,
         text,
         amount,
+        time,
         docId,
         date,
       });
@@ -259,7 +261,7 @@ function Home2() {
       console.error("Error adding document: ", error);
     }
   };
-
+  //できてる
   const deleteExpense = async (docId) => {
     try {
       await deleteDoc(doc(db, "expenseItems", docId));
@@ -272,14 +274,17 @@ function Home2() {
     }
   };
 
+  const expenseTotal = totalCalc(expenseItems);
+
   return (
     <View>
+      {/* <Text>{expenseTotal}</Text> */}
       <Header2
         date={date}
         setPrevMonth={setPrevMonth}
         setNextMonth={setNextMonth}
       />
-      <TotalBuy getExpense={getExpense} />
+      <TotalBuy expenseTotal={expenseTotal} />
       <BuyGohoubi
         expenseItems={expenseItems}
         addExpense={addExpense}
@@ -291,6 +296,7 @@ function Home2() {
         thisMonth={thisMonth}
       />
       <Logout />
+
       <BuyItemsList
         deleteExpense={deleteExpense}
         expenseItems={expenseItems}

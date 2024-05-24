@@ -1,35 +1,47 @@
-//最後でおけ
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-export const TotalBuy = ({ getExpense }) => {
-const getTotalExpense =() =>
-  {
-    //totalcalを実装する必要アリよ
-    const totalExpense = () => Totalcal().getExpense;
-  return totalExpense;
-}
+export const TotalBuy = ({ totalExpense }) => {
+  const formattedTotalExpense = new Intl.NumberFormat().format(totalExpense);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.totalText}>使ったお金: {getTotalExpense}円</Text>
+      <Text style={styles.title}>使ったお金</Text>
+      <View style={styles.totalContainer}>
+        <Text style={styles.totalText}>{formattedTotalExpense}</Text>
+        <Text style={styles.currency}>円</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    shadowColor: "black",
-    shadowOffset: { height: 0, width: 0 },
-    margin: 20,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#333",
+    fontFamily: "Arial",
+  },
+  totalContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   totalText: {
-    fontSize: 18,
-    
-    color: "black",
+    fontSize: 32,
+    marginRight: 5,
+    color: "#007bff",
+    fontFamily: "Arial",
+  },
+  currency: {
+    fontSize: 24,
+    color: "#333",
+    fontFamily: "Arial",
   },
 });
+
+export default TotalBuy;

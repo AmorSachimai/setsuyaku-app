@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { auth } from "../firebase/Firebase";
 import { signOut } from "firebase/auth";
 
@@ -13,10 +13,28 @@ const handleLogout = () => {
     });
 };
 
+const confirmLogout = () => {
+  Alert.alert(
+    "ログアウトの確認",
+    "本当にログアウトしますか？",
+    [
+      {
+        text: "キャンセル",
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: handleLogout,
+      },
+    ],
+    { cancelable: false }
+  );
+};
+
 export const Logout = () => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handleLogout} style={styles.button}>
+      <TouchableOpacity onPress={confirmLogout} style={styles.button}>
         <Text style={styles.text}>ログアウト</Text>
       </TouchableOpacity>
     </View>
@@ -27,18 +45,18 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "flex-end",
     marginTop: 20,
-    paddingRight: 10, // Add some padding to the right side
+    paddingRight: 10, // 右側にパディングを追加
   },
   buttonContainer: {
-    flexDirection: "row", // Align items horizontally
+    flexDirection: "row", // アイテムを水平に整列
   },
   button: {
-    backgroundColor: "#ADD8E6", // Light blue color
+    backgroundColor: "#ADD8E6", // ライトブルーの背景色
     padding: 10,
     borderRadius: 5,
   },
   text: {
-    color: "#fff", // White text color
+    color: "#fff", // 白色のテキスト
     fontSize: 16,
   },
 });
