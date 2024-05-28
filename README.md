@@ -26,53 +26,58 @@ Setsuyaku Appは、ユーザーが節約額を確認できるアプリです。�
    git clone https://github.com/ukasama47/setsuyaku-app.git
    cd setsuyaku-app
    ```
-3.**依存関係のインストール**
+3. **依存関係のインストール**
 
-  プロジェクトディレクトリに移動し、npmを使用して依存関係をインストールします。
+   プロジェクトディレクトリに移動し、npmを使用して依存関係をインストールします。
    ```bash
-　 npm install
+   npm install
    ```
-4.**Firebaseの設定**
-  Firebaseの設定を行います。以下の手順に従ってください：
+4. **Firebaseの設定**
 
-  1.Firebaseコンソールにアクセスし、新しいプロジェクトを作成します。
+   Firebaseの設定を行います。以下の手順に従ってください：
 
-  2.プロジェクト設定から、Firebase SDKの設定情報を取得します（firebaseConfig）。
+   1.Firebaseコンソールにアクセスし、新しいプロジェクトを作成します。
 
-  3.src/firebaseConfig.js ファイルを作成し、以下のように設定情報を追加します。
+   2.プロジェクト設定から、Firebase SDKの設定情報を取得します（firebaseConfig）。
 
-  ```javascript
-　 // src/firebaseConfig.js
+   3.src/firebaseConfig.js ファイルを作成し、以下のように設定情報を追加します。
 
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
+   ```javascript
 
-export default firebaseConfig;
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID",
+      measurementId: "YOUR_MESUREMENT_ID",
+    };
 
-   ```
-5.**起動**
-　　アプリケーションを起動するには、以下のコマンドを実行します。
-```bash
-npx expo start
-  ```
-または
-```bash
-npx expo tunnel
-  ```
-6.**主な機能**
-節約目標の設定
-節約額の表示
-ご褒美額の表示
+    export default firebaseConfig;
 
-7.**コントリビュート**
-プロジェクトへのコントリビュートを歓迎します。バグの報告や機能の提案は、GitHubのイシューとして報告してください。
+    ```
+5. **起動**
+
+    アプリケーションを起動するには、以下のコマンドを実行します。
+   ```bash
+   npx expo start
+     ```
+   または
+   ```bash
+   npx expo tunnel
+     ```
+6. **主な機能**
+
+   節約目標の設定
+
+   節約額の表示
+
+   ご褒美額の表示
+
+7. **コントリビュート**
+
+   プロジェクトへのコントリビュートを歓迎します。バグの報告や機能の提案は、GitHubのイシューとして報告してください。
 
 
-##Setsuyaku Appを使用して、楽しく節約を始めましょう！
-  
+Setsuyaku Appを使用して、楽しく節約を始めましょう！
