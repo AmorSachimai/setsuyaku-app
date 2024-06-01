@@ -176,7 +176,7 @@ function Home2() {
   const [expenseItems, setExpenseItems] = useState([]);
   const [inputText, setInputText] = useState("");
   const [inputAmount, setInputAmount] = useState(0);
-  const [type, setType] = useState("inc");
+
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -218,32 +218,35 @@ function Home2() {
   const today = new Date();
   const thisMonth = today.getMonth() + 1;
 
-  const getExpense = () => {
-    const expenseData = collection(db, "expenseItems");
-    expenseData
-      .where("uid", "==", currentUser.uid)
-      .orderBy("date")
-      .startAt(startOfMonth(date))
-      .endAt(endOfMonth(date))
-      .onSnapshot((query) => {
-        const expenseItems = [];
-        query.forEach((doc) =>
-          expenseItems.push({ ...doc.data(), docId: doc.id })
-        );
-        setExpenseItems(expenseItems);
-      });
-  };
+  // const getExpense = () => {
+  //   const expenseData = collection(db, "expenseItems");
+  //   expenseData
+  //     .where("uid", "==", currentUser.uid)
+  //     .orderBy("date")
+  //     .startAt(startOfMonth(date))
+  //     .endAt(endOfMonth(date))
+  //     .onSnapshot((query) => {
+  //       const expenseItems = [];
+  //       query.forEach((doc) =>
+  //         expenseItems.push({ ...doc.data(), docId: doc.id })
+  //       );
+  //       setExpenseItems(expenseItems);
+  //     });
+  // };
+      if (!currentUser) {
+        console.error("User is not authenticated");
+        return;
+      }
+      const uid = currentUser.uid;
+ 
 
   const addExpense = async (text, amount, time) => {
-    if (!currentUser) {
-      console.error("User is not authenticated");
-      return;
-    }
 
-    const uid = currentUser.uid;
+
+    
     const docId = Math.random().toString(32).substring(2);
     const date = Timestamp.now();
-
+    
     try {
       await addDoc(collection(db, "expenseItems"), {
         uid,
@@ -280,7 +283,7 @@ function Home2() {
 
   return (
     <View>
-       <Text>{expenseTotal}</Text> 
+      <Text>{expenseTotal}</Text>
       <Header2
         date={date}
         setPrevMonth={setPrevMonth}
@@ -304,6 +307,7 @@ function Home2() {
         expenseItems={expenseItems}
         selectedMonth={selectedMonth}
         thisMonth={thisMonth}
+        uid={uid}
       />
     </View>
   );
