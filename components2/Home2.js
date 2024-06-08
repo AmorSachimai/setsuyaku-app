@@ -189,6 +189,7 @@ function Home2() {
       }
     });
 
+    
     return () => unsubscribe();
   }, []);
 
@@ -279,11 +280,11 @@ function Home2() {
 
 
   
-  const expenseTotal = totalCalc(expenseItems);
+  const expenseTotal = totalCalc(uid)
+  console.log( expenseTotal);
 
   return (
     <View>
-      <Text>{expenseTotal}</Text>
       <Header2
         date={date}
         setPrevMonth={setPrevMonth}
