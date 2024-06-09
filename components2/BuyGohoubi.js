@@ -17,37 +17,37 @@ export const BuyGohoubi = ({
   selectedMonth,
   thisMonth,
 }) => {
-  const [price, setPrice] = useState("");
-  const [thing, setThing] = useState("");
+  const [amount, setAmount] = useState("");
+  const [text, setText] = useState("");
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const priceInputRef = useRef(null);
-  const thingInputRef = useRef(null);
+  const amountInputRef = useRef(null);
+  const textInputRef = useRef(null);
 
   const handleBuy = () => {
-    if (price.trim() === "") {
+    if (amount.trim() === "") {
       Alert.alert("エラー", "値段を入力してください。");
       return;
     }
 
     const expenseDate = Timestamp.fromDate(date);
 
-    addExpense(thing, price, expenseDate);
+    addExpense(text, amount, expenseDate);
 
-    setPrice("");
-    setThing("");
+    setAmount("");
+    setText("");
     setDate(new Date());
-    console.log("保存", { price, thing, date: expenseDate });
-    priceInputRef.current.blur();
-    thingInputRef.current.blur();
+    console.log("保存", { amount, text, date: expenseDate });
+    amountInputRef.current.blur();
+    textInputRef.current.blur();
   };
 
   const reset = () => {
     setInputText("");
     setInputAmount("");
     setDate(new Date());
-    priceInputRef.current.blur();
-    thingInputRef.current.blur();
+    amountInputRef.current.blur();
+    textInputRef.current.blur();
   };
 
   const thisMonthForm = () => {
@@ -56,23 +56,23 @@ export const BuyGohoubi = ({
         <Text style={styles.dialogTitle}>ご褒美を買う</Text>
         <View style={styles.inputRow}>
           <TextInput
-            ref={thingInputRef}
+            ref={textInputRef}
             style={styles.input}
             placeholder="何を買ったの？"
             placeholderTextColor="#999"
             keyboardType="default"
-            value={thing}
-            onChangeText={setThing}
+            value={text}
+            onChangeText={setText}
             underlineColorAndroid="transparent"
           />
           <TextInput
-            ref={priceInputRef}
+            ref={amountInputRef}
             style={styles.input}
             placeholder="値段"
             placeholderTextColor="#999"
             keyboardType="numeric"
-            value={price}
-            onChangeText={setPrice}
+            value={amount}
+            onChangeText={setAmount}
             underlineColorAndroid="transparent"
           />
         </View>
