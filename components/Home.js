@@ -1,26 +1,48 @@
+
+
 import { db } from "../firebase/Firebase";
 import { Header } from "./Header";
 import { Balance } from "./Balance";
-import AddSavingForm from './AddItems';
+import AddSavingForm from './AddSavingForm';
 import GoalAmountForm from "./GoalAmountForm";
-
+import { AddItems } from "./AddItems";
+import {
+  collection,
+  addDoc,
+  doc,
+  Timestamp,
+  deleteDoc,
+} from "firebase/firestore";
 import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { totalCalc } from "./TotalSave";
 //import { AuthContext } from "../auth/AuthProvider";
-
+import { Logout } from "../auth/Logout";
 import firebase from "firebase/app";
 import "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "@firebase/auth";
 
 
 function Home() {
   const [date, setDate] = useState(new Date());
   const [saveItems, setSaveItems] = useState([]);
   //const [expenseItems, setExpenseItems] = useState([]);
-  //const [inputText, setInputText] = useState("");
-  //const [inputAmount, setInputAmount] = useState(0);
+  const [inputText, setInputText] = useState("");
+  const [inputAmount, setInputAmount] = useState(0);
   //const [type, setType] = useState("inc");
 
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUser(user);
+      } else {
+        setCurrentUser(null);
+      }
+    })
+  });
   // const { currentUser } = useContext(AuthContext);
 
 
@@ -67,104 +89,51 @@ function Home() {
   const selectedMonth = date.getMonth() + 1;
   const today = new Date();
   const thisMonth = today.getMonth() + 1;
+  const saveTotal = totalCalc(saveItems);
+  
+  // uidのために直したい
+  if (!currentUser) {
+    console.error("User is not authenticated");
+    return;
+  }
+  const uid = currentUser.uid;
+  // uidのために直したい　ここまで
 
-  // //for balance
-  // const getSaveData = () => {
-  //   const saveData = db.collection("SaveItems");
-  //   saveData
-  //     //.where ("uid","==", currentUser.uid )
-  //     .orderBy("date")
-  //     .startAt(startOfMonth(date))
-  //     .endAt(endOfMonth(date))
-  //     .onSnapshot((query)=>{
-  //       const saveItems = [];
-  //         query.forEach((doc) =>
-  //         saveItems.push({ ...doc.data(), docId: doc.id 
-  //         })
-  //       )
-  //         setsaveItems(saveItems);
-  //     });
-  // };
-  // //firebase IncomeData
-  // const getIncomeData = () => {
-  //   const incomeData = db.collection("incomeItems");
-  //   incomeData
-  //     .where("uid", "==", currentUser.uid)
-  //     .orderBy("date")
-  //     .startAt(startOfMonth(date))
-  //     .endAt(endOfMonth(date))
-  //     .onSnapshot((query) => {
-  //       const incomeItems = [];
-  //       query.forEach((doc) =>
-  //         incomeItems.push({ ...doc.data(), docId: doc.id })
-  //       );
-  //       setIncomeItems(incomeItems);
-  //     });
-  // };
+  // ここから　home2より
+  
+  const addSave = async (text, amount, time) => {
+    const docId = Math.random().toString(32).substring(2);
+    const date = Timestamp.now();    
+    try {
+      await addDoc(collection(db, "saveItems"), {
+        uid,
+        text,
+        amount,
+        time,
+        docId,
+        date,
+      });
 
-  // const addIncome = (text, amount) => {
-  //   const docId = Math.random().toString(32).substring(2);
-  //   const date = firebase.firestore.Timestamp.now();
-  //   db.collection("incomeItems")
-  //     .doc(docId)
-  //     .set({
-  //       uid: currentUser.uid,
-  //       text,
-  //       amount,
-  //       date,
-  //     })
-  //     .then((response) => {
-  //       setIncomeItems([
-  //         ...incomeItems,
-  //         { text: inputText, amount: inputAmount, docId: docId, date: date },
-  //       ]);
-  //     });
-  // };
-
-  // const deleteIncome = (docId) => {
-  //   db.collection("incomeItems").doc(docId).delete();
-  // };
-
-  // //firebase Expense data
-  // const getExpenseData = () => {
-  //   const expenseData = db.collection("expenseItems");
-  //   expenseData
-  //     .where("uid", "==", currentUser.uid)
-  //     .orderBy("date")
-  //     .startAt(startOfMonth(date))
-  //     .endAt(endOfMonth(date))
-  //     .onSnapshot((query) => {
-  //       const expenseItems = [];
-  //       query.forEach((doc) =>
-  //         expenseItems.push({ ...doc.data(), docId: doc.id })
-  //       );
-  //       setExpenseItems(expenseItems);
-  //     });
-  // };
-
-  // const addExpense = (text, amount) => {
-  //   const docId = Math.random().toString(32).substring(2);
-  //   const date = firebase.firestore.Timestamp.now();
-  //   db.collection("expenseItems")
-  //     .doc(docId)
-  //     .set({
-  //       uid: currentUser.uid,
-  //       text,
-  //       amount,
-  //       date,
-  //     })
-      // .then((response) => {
-      //   setExpenseItems([
-      //     ...expenseItems,
-      //     { text: inputText, amount: inputAmount, docId: docId, date: date },
-      //   ]);
-      // });
-  // };
-
-  // const deleteExpense = (docId) => {
-  //   db.collection("expenseItems").doc(docId).delete();
-  // };
-   const saveTotal = totalCalc(saveItems);
+      const newSaveItem = { uid, text, amount, docId, date };
+      setSaveItems((prevItems) => [...prevItems, newSaveItem]);
+      console.log("Document written with ID: ", docId);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
+  };
+  //できてる
+  const deleteSave = async (docId) => {
+    try {
+      await deleteDoc(doc(db, "saveItems", docId));
+      setSaveItems((prevItems) =>
+        prevItems.filter((item) => item.docId !== docId)
+      );
+      console.log("Document successfully deleted!");
+    } catch (error) {
+      console.error("Error removing document: ", error);
+    }
+  };
+  // ここまで　home2より
 
   return (
     <View>
@@ -174,15 +143,26 @@ function Home() {
           setPrevMonth={setPrevMonth}
           setNextMonth={setNextMonth}
         />
+{/*         
         <GoalAmountForm
         />
         <Balance 
           saveTotal={saveTotal}  
+        /> */}
+
+        <AddItems
+          saveItems={saveItems}
+          addSave={addSave}
+          inputText={inputText}
+          setInputText={setInputText}
+          inputAmount={inputAmount}
+          setInputAmount={setInputAmount}
+          selectedMonth={selectedMonth}
+          thisMonth={thisMonth}
         />
+
         <AddSavingForm
         />
-        
-
       </View>
     </View>
   );

@@ -1,82 +1,191 @@
-import React, { useState } from 'react';
-import { StyleSheet, TextInput, View, Button, Keyboard } from 'react-native';
+import React, { useState, useRef } from "react";
+import {
+  Alert,
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Timestamp } from "firebase/firestore";
 
-function AddSavingForm() {
-  const [date, setDate] = useState('');
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState('');
+export const AddItems = ({
+  addSave,
+  setInputText,
+  setInputAmount,
+  selectedMonth,
+  thisMonth,
+}) => {
+  const [price, setPrice] = useState("");
+  const [thing, setThing] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const priceInputRef = useRef(null);
+  const thingInputRef = useRef(null);
 
-  const handleSubmit = () => {
-    console.log("Saved", { date, name, amount });
-    setDate('');
-    setName('');
-    setAmount('');
-    Keyboard.dismiss();
+  const handleBuy = () => {
+    if (price.trim() === "") {
+      Alert.alert("エラー", "値段を入力してください。");
+      return;
+    }
+
+    const saveDate = Timestamp.fromDate(date);
+
+    addSave(thing, price, saveDate);
+
+    setPrice("");
+    setThing("");
+    setDate(new Date());
+    console.log("保存", { price, thing, date: saveDate });
+    priceInputRef.current.blur();
+    thingInputRef.current.blur();
   };
 
-  return (
-    <View style={styles.formContainer}>
-      <View style={styles.inputRow}>
-        <TextInput
-          style={[styles.input, { flex: 2 }]}
-          value={date}
-          placeholder="日付 (YYYY-MM-DD)"
-          onChangeText={setDate}
-        />
-        <TextInput
-          style={[styles.input, { flex: 3 }]}
-          value={name}
-          placeholder="名目"
-          onChangeText={setName}
-        />
-        <TextInput
-          style={[styles.input, { flex: 2 }]}
-          value={amount}
-          placeholder="金額"
-          keyboardType="numeric"
-          onChangeText={text => setAmount(text.replace(/[^0-9]/g, ''))}
-        />
+  const reset = () => {
+    setInputText("");
+    setInputAmount("");
+    setDate(new Date());
+    priceInputRef.current.blur();
+    thingInputRef.current.blur();
+  };
+
+  const thisMonthForm = () => {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.dialogTitle}>節約を記録</Text>
+        <View style={styles.inputRow}>
+          <TextInput
+            ref={thingInputRef}
+            style={styles.input}
+            placeholder="節約したもの"
+            placeholderTextColor="#999"
+            keyboardType="default"
+            value={thing}
+            onChangeText={setThing}
+            underlineColorAndroid="transparent"
+          />
+          <TextInput
+            ref={priceInputRef}
+            style={styles.input}
+            placeholder="値段"
+            placeholderTextColor="#999"
+            keyboardType="numeric"
+            value={price}
+            onChangeText={setPrice}
+            underlineColorAndroid="transparent"
+          />
+        </View>
+        <View>
+          <TouchableOpacity
+            style={styles.dateButton}
+            onPress={() => setShowDatePicker(true)}
+          >
+            <Text style={styles.dateButtonText}>日付を選択</Text>
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              value={date}
+              mode="date"
+              display="default"
+              onChange={(event, selectedDate) => {
+                const currentDate = selectedDate || date;
+                setShowDatePicker(false);
+                setDate(currentDate);
+              }}
+            />
+          )}
+          <Text style={styles.selectedDateText}>
+            選択した日付: {date.toDateString()}
+          </Text>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.cancelButton} onPress={reset}>
+            <Text style={styles.buttonText}>キャンセル</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buyButton} onPress={handleBuy}>
+            <Text style={styles.buttonText}>節約！</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="セツヤク！"
-          onPress={handleSubmit}
-          color="#007BFF"
-        />
-      </View>
-    </View>
-  );
-}
+    );
+  };
+
+  return <View>{thisMonth === selectedMonth ? thisMonthForm() : null}</View>;
+};
 
 const styles = StyleSheet.create({
-  formContainer: {
-    padding: 20,
-    backgroundColor: 'white',
+  container: {
+    padding: 15,
+    backgroundColor: "#f9f9f9",
     borderRadius: 10,
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    shadowColor: 'black',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    shadowColor: "#000",
     shadowOffset: { height: 0, width: 0 },
-    margin: 20
+    margin: 15,
+  },
+  dialogTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 15,
+    textAlign: "center",
+    color: "#333",
   },
   inputRow: {
-    flexDirection: 'row', // 横並びに配置
-    justifyContent: 'space-between', // 間隔を均等に配置
-    alignItems: 'center', // 中央揃え
-    marginBottom: 20 // 入力行とボタン行の間のマージン
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 15,
   },
   input: {
-    height: 40,
-    borderColor: 'gray',
+    flex: 1,
     borderWidth: 1,
-    padding: 10,
-    marginRight: 10, // 入力フィールド間の余白
-    flex: 1 // フレックスアイテムの伸縮に応じて幅を調整
+    borderColor: "#ddd",
+    borderRadius: 5,
+    padding: 8,
+    marginRight: 5,
+    color: "#333",
+    backgroundColor: "#fff",
+  },
+  dateButton: {
+    backgroundColor: "#ADD8E6",
+    padding: 8,
+    borderRadius: 5,
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  dateButtonText: {
+    color: "#fff",
+    fontSize: 14,
+  },
+  selectedDateText: {
+    marginTop: 8,
+    marginBottom: 15,
+    fontSize: 14,
+    textAlign: "center",
+    color: "#333",
   },
   buttonContainer: {
-    flexDirection: 'row', // ボタンも横並びで配置する場合
-    justifyContent: 'center' // ボタンを中央に配置
-  }
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  cancelButton: {
+    backgroundColor: "#EFC2FF",
+    padding: 8,
+    borderRadius: 5,
+    flex: 1,
+    alignItems: "center",
+    marginRight: 5,
+  },
+  buyButton: {
+    backgroundColor: "#ADD8E6",
+    padding: 8,
+    borderRadius: 5,
+    flex: 1,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 14,
+  },
 });
-
-export default AddSavingForm;
