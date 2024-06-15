@@ -1,6 +1,5 @@
-// //こちらでは今までの月で計上された節約額の合計からギフトを送ったり、
-// //ご褒美を購入したりすることにより引き算の処理がなされます
-
+// // //こちらでは今までの月で計上された節約額の合計からギフトを送ったり、
+// // //ご褒美を購入したりすることにより引き算の処理がなされます
 
 import { Header2 } from "./Header2";
 import React, { useState, useEffect } from "react";
@@ -26,21 +25,33 @@ function Home2() {
   const [expenseItems, setExpenseItems] = useState([]);
   const [inputText, setInputText] = useState("");
   const [inputAmount, setInputAmount] = useState(0);
-  
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState(0); // 新しい状態を追加
 
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
+        fetchTotal(user.uid); // ユーザー認証後に合計を取得
       } else {
         setCurrentUser(null);
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
+
+  const fetchTotal = async (uid) => {
+    try {
+      const totalAmount = await totalCalc(uid);
+      setTotal(totalAmount);
+    } catch (error) {
+      console.error("Error calculating total amount:", error);
+    }
+  };
 
   const setPrevMonth = () => {
     setDate((prevDate) => {
@@ -68,25 +79,15 @@ function Home2() {
   const today = new Date();
   const thisMonth = today.getMonth() + 1;
 
-  // const getExpense = () => {
-  //   const expenseData = collection(db, "expenseItems");
-  //   expenseData
-  //     .where("uid", "==", currentUser.uid)
-  //     .orderBy("date")
-  //     .startAt(startOfMonth(date))
-  //     .endAt(endOfMonth(date))
-  //     .onSnapshot((query) => {
-  //       const expenseItems = [];
-  //       query.forEach((doc) =>
-  //         expenseItems.push({ ...doc.data(), docId: doc.id })
-  //       );
-  //       setExpenseItems(expenseItems);
-  //     });
-  // };
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+
   if (!currentUser) {
     console.error("User is not authenticated");
-    return;
+    return <Text>User is not authenticated</Text>;
   }
+
   const uid = currentUser.uid;
 
   const addExpense = async (text, amount, time) => {
@@ -110,7 +111,7 @@ function Home2() {
       console.error("Error adding document: ", error);
     }
   };
-  //できてる
+
   const deleteExpense = async (docId) => {
     try {
       await deleteDoc(doc(db, "expenseItems", docId));
@@ -123,35 +124,6 @@ function Home2() {
     }
   };
 
-  //const expenseTotal = totalCalc(uid)
-
-
-const expense = async (uid) => {
-  try {
-    const total = await totalCalc(uid);
-    console.log("Total amount:", total);
-    return total;
-  } catch (error) {
-    console.error("Error calculating total amount:", error);
-  }
-};
-
-
-const expenseTotal = async (uid) => {
-  try {
-    const expenseTotal = await expense(uid);
-    console.log("Total amount from testFunction:", total);
-    return expenseTotal;
-  } catch (error) {
-    console.error("Error in testFunction:", error);
-  }
-};
-
-
-
-
-
-
   return (
     <View>
       <Header2
@@ -159,7 +131,7 @@ const expenseTotal = async (uid) => {
         setPrevMonth={setPrevMonth}
         setNextMonth={setNextMonth}
       />
-      <TotalBuy expenseTotal={expenseTotal} />
+      <TotalBuy expenseTotal={total} />
       <BuyGohoubi
         expenseItems={expenseItems}
         addExpense={addExpense}
@@ -184,3 +156,5 @@ const expenseTotal = async (uid) => {
 }
 
 export default Home2;
+
+
