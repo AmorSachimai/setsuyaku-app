@@ -1,5 +1,5 @@
-// // //こちらでは今までの月で計上された節約額の合計からギフトを送ったり、
-// // //ご褒美を購入したりすることにより引き算の処理がなされます
+// // // //こちらでは今までの月で計上された節約額の合計からギフトを送ったり、
+// // // //ご褒美を購入したりすることにより引き算の処理がなされます
 
 import { Header2 } from "./Header2";
 import React, { useState, useEffect } from "react";
@@ -28,6 +28,7 @@ function Home2() {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0); // 新しい状態を追加
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // 1. selectedYear の状態管理
 
   useEffect(() => {
     const auth = getAuth();
@@ -56,14 +57,20 @@ function Home2() {
   const setPrevMonth = () => {
     setDate((prevDate) => {
       const prevMonth = prevDate.getMonth() - 1;
-      return new Date(prevDate.getFullYear(), prevMonth, 1);
+      const year =
+        prevMonth === -1 ? prevDate.getFullYear() - 1 : prevDate.getFullYear();
+      setSelectedYear(year); // 2. 年の更新
+      return new Date(year, prevMonth, 1);
     });
   };
 
   const setNextMonth = () => {
     setDate((prevDate) => {
       const nextMonth = prevDate.getMonth() + 1;
-      return new Date(prevDate.getFullYear(), nextMonth, 1);
+      const year =
+        nextMonth === 12 ? prevDate.getFullYear() + 1 : prevDate.getFullYear();
+      setSelectedYear(year); // 2. 年の更新
+      return new Date(year, nextMonth, 1);
     });
   };
 
@@ -99,7 +106,7 @@ function Home2() {
         uid,
         text,
         amount,
-        time,
+        time, // 選んだ日付
         docId,
         date,
       });
@@ -130,6 +137,7 @@ function Home2() {
         date={date}
         setPrevMonth={setPrevMonth}
         setNextMonth={setNextMonth}
+        selectedYear={selectedYear} // 3. selectedYear を Header2 に渡す
       />
       <TotalBuy expenseTotal={total} />
       <BuyGohoubi
@@ -148,6 +156,7 @@ function Home2() {
         deleteExpense={deleteExpense}
         expenseItems={expenseItems}
         selectedMonth={selectedMonth}
+        selectedYear={selectedYear} // BuyItemsList にも渡す
         thisMonth={thisMonth}
         uid={uid}
       />
@@ -156,5 +165,4 @@ function Home2() {
 }
 
 export default Home2;
-
 
