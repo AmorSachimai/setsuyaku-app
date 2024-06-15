@@ -6,6 +6,8 @@ import { Balance } from "./Balance";
 import AddSavingForm from './AddSavingForm';
 import GoalAmountForm from "./GoalAmountForm";
 import { AddItems } from "./AddItems";
+import { SaveItemsList } from "./SaveItemList";
+
 import {
   collection,
   addDoc,
@@ -153,12 +155,12 @@ function Home() {
           setPrevMonth={setPrevMonth}
           setNextMonth={setNextMonth}
         />
-{/*         
+        
         <GoalAmountForm
         />
         <Balance 
           saveTotal={saveTotal}  
-        /> */}
+        />
 
         <AddItems
           saveItems={saveItems}
@@ -171,7 +173,15 @@ function Home() {
           thisMonth={thisMonth}
         />
 
-        <AddSavingForm
+        {/* <AddSavingForm
+        /> */}
+
+        <SaveItemsList
+          deleteSave={deleteSave}
+          saveItems={saveItems}
+          selectedMonth={selectedMonth}
+          thisMonth={thisMonth}
+          uid={uid}
         />
       </View>
     </View>
