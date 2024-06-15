@@ -33,16 +33,21 @@ function Home() {
 
   const [currentUser, setCurrentUser] = useState(null);
 
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setCurrentUser(user);
-      } else {
-        setCurrentUser(null);
-      }
-    })
-  });
+  const [loading, setLoading] = useState(true); // 新しい状態を追加
+
+ useEffect(() => {
+   const auth = getAuth();
+   const unsubscribe = onAuthStateChanged(auth, (user) => {
+     if (user) {
+       setCurrentUser(user);
+     } else {
+       setCurrentUser(null);
+     }
+     setLoading(false); // ロード完了
+   });
+
+   return () => unsubscribe();
+ }, []);
   // const { currentUser } = useContext(AuthContext);
 
 
@@ -90,6 +95,11 @@ function Home() {
   const today = new Date();
   const thisMonth = today.getMonth() + 1;
   const saveTotal = totalCalc(saveItems);
+
+  
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
   
   // uidのために直したい
   if (!currentUser) {
