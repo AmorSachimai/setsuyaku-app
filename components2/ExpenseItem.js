@@ -1,4 +1,5 @@
-// // //日付追加できるようにしたい
+// // // //日付追加できるようにしたい
+
 
 import React from "react";
 import { View, Text, TouchableOpacity, Alert, StyleSheet } from "react-native";
@@ -10,8 +11,8 @@ export const ExpenseItem = ({
   expenseText,
   expenseAmount,
   expenseTime,
-  thisMonth,
   selectedMonth,
+  selectedYear,
 }) => {
   const deleteHandler = () => {
     Alert.alert(
@@ -37,15 +38,15 @@ export const ExpenseItem = ({
     return "";
   };
 
-  const showThisMonth = () => {
+  const showExpenseItem = () => {
     return (
-      <View style={styles.thisMonthList}>
+      <View style={styles.expenseList}>
         <View style={styles.textContainer}>
           <Text style={styles.text}>{expenseText}</Text>
           <Text style={styles.dateText}>{formatDate(expenseTime)}</Text>
         </View>
         <Text style={styles.moneyMinus}>
-          -{Number(expenseAmount).toLocaleString()}円
+          {Number(expenseAmount).toLocaleString()}円
         </Text>
         <TouchableOpacity style={styles.deleteButton} onPress={deleteHandler}>
           <Text style={styles.deleteButtonText}>×</Text>
@@ -54,44 +55,29 @@ export const ExpenseItem = ({
     );
   };
 
-  const showPastMonth = () => {
-    return (
-      <View style={styles.pastMonthList}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>{expenseText}</Text>
-          <Text style={styles.dateText}>{formatDate(expenseTime)}</Text>
-        </View>
-        <Text style={styles.moneyMinus}>
-          -{Number(expenseAmount).toLocaleString()}円
-        </Text>
-      </View>
-    );
-  };
+  const expenseDate = expenseTime.toDate();
+  //console.log(expenseDate);
+  const expenseMonth = expenseDate.getMonth()+1; // 月は0から始まるので+1する
+  const expenseYear = expenseDate.getFullYear();
+  //console.log(expenseMonth);
+  //console.log(selectedMonth);
+  //console.log(selectedYear);
+  // 指定された月と年に一致する場合のみ表示
+  if (selectedMonth === expenseMonth && selectedYear === expenseYear) {
+    return <View>{showExpenseItem()}</View>;
+  }
 
-  return (
-    <View>
-      {thisMonth === selectedMonth ? showThisMonth() : showPastMonth()}
-    </View>
-  );
+  return null;
 };
 
 const styles = StyleSheet.create({
-  thisMonthList: {
+  expenseList: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
-  },
-  pastMonthList: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    opacity: 0.5, // 過去の月のアイテムは半透明にする
   },
   textContainer: {
     flex: 1,
@@ -119,110 +105,3 @@ const styles = StyleSheet.create({
 });
 
 export default ExpenseItem;
-
-
-
-// import React from "react";
-// import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-
-// const ExpenseItem = ({
-//   deleteExpense,
-//   expenseItem,
-//   expenseText,
-//   expenseAmount,
-//   expenseTime,
-//   thisMonth,
-//   selectedMonth,
-// }) => {
-//   const deleteHandler = () => {
-//     Alert.alert(
-//       "削除の確認",
-//       "本当に削除しますか？",
-//       [
-//         {
-//           text: "キャンセル",
-//           style: "cancel",
-//         },
-//         { text: "OK", onPress: () => deleteExpense(expenseItem.docId) },
-//       ],
-//       { cancelable: false }
-//     );
-//   };
-
-//   const formattedTime =
-//     expenseTime && expenseTime.seconds
-//       ? new Date(expenseTime.seconds * 1000).toLocaleString()
-//       : "日時不明";
-
-//   const showThisMonth = () => (
-//     <View style={styles.thisMonthList}>
-//       <Text style={styles.text}>{expenseText}</Text>
-//       <Text style={styles.moneyMinus}>
-//         -{Number(expenseAmount).toLocaleString()}円
-//       </Text>
-//       <Text style={styles.dateText}>{formattedTime}</Text>
-//       <TouchableOpacity style={styles.deleteButton} onPress={deleteHandler}>
-//         <Text style={styles.deleteButtonText}>×</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-
-//   const showPastMonth = () => (
-//     <View style={styles.pastMonthList}>
-//       <Text style={styles.text}>{expenseText}</Text>
-//       <Text style={styles.moneyMinus}>
-//         -{Number(expenseAmount).toLocaleString()}円
-//       </Text>
-//       <Text style={styles.dateText}>{formattedTime}</Text>
-//     </View>
-//   );
-
-//   return (
-//     <View>
-//       {thisMonth === selectedMonth ? showThisMonth() : showPastMonth()}
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   thisMonthList: {
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//     padding: 10,
-//     borderBottomWidth: 1,
-//     borderBottomColor: "#ccc",
-//   },
-//   pastMonthList: {
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//     padding: 10,
-//     borderBottomWidth: 1,
-//     borderBottomColor: "#ccc",
-//     opacity: 0.5,
-//   },
-//   text: {
-//     flex: 1,
-//     fontSize: 16,
-//   },
-//   moneyMinus: {
-//     fontSize: 16,
-//     marginRight: 10,
-//   },
-//   dateText: {
-//     fontSize: 12,
-//     color: "#666",
-//   },
-//   deleteButton: {
-//     backgroundColor: "red",
-//     borderRadius: 50,
-//     padding: 5,
-//   },
-//   deleteButtonText: {
-//     color: "white",
-//     fontSize: 16,
-//   },
-// });
-
-// export default ExpenseItem;
