@@ -15,8 +15,8 @@ import {
   Timestamp,
   deleteDoc,
 } from "firebase/firestore";
-import React, { useState, useContext, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import { StyleSheet, Text, View , ScrollView, Animated } from "react-native";
 import { totalCalc } from "./TotalSave";
 //import { AuthContext } from "../auth/AuthProvider";
 import { Logout } from "../auth/Logout";
@@ -147,44 +147,51 @@ function Home() {
   };
   // ここまで　home2より
 
+  // const scrollY = useRef(new Animated.Value(0)).current;
   return (
-    <View>
+    // <ScrollView>
       <View>
-        <Header
-          date={date}
-          setPrevMonth={setPrevMonth}
-          setNextMonth={setNextMonth}
-        />
-        
-        <GoalAmountForm
-        />
-        <Balance 
-          saveTotal={saveTotal}  
-        />
+        <View>
+          <Header
+            date={date}
+            setPrevMonth={setPrevMonth}
+            setNextMonth={setNextMonth}
+          />
+          <ScrollView>
+            <GoalAmountForm
+          />
+          <Balance 
+            saveTotal={saveTotal}  
+          />
+          <AddItems
+            saveItems={saveItems}
+            addSave={addSave}
+            inputText={inputText}
+            setInputText={setInputText}
+            inputAmount={inputAmount}
+            setInputAmount={setInputAmount}
+            selectedMonth={selectedMonth}
+            thisMonth={thisMonth}
+          />
 
-        <AddItems
-          saveItems={saveItems}
-          addSave={addSave}
-          inputText={inputText}
-          setInputText={setInputText}
-          inputAmount={inputAmount}
-          setInputAmount={setInputAmount}
-          selectedMonth={selectedMonth}
-          thisMonth={thisMonth}
-        />
+          {/* <AddSavingForm
+          /> */}
 
-        {/* <AddSavingForm
-        /> */}
+          <SaveItemsList
+            deleteSave={deleteSave}
+            saveItems={saveItems}
+            selectedMonth={selectedMonth}
+            thisMonth={thisMonth}
+            uid={uid}
+          />
+          </ScrollView>
+          
 
-        <SaveItemsList
-          deleteSave={deleteSave}
-          saveItems={saveItems}
-          selectedMonth={selectedMonth}
-          thisMonth={thisMonth}
-          uid={uid}
-        />
+          
+        </View>
       </View>
-    </View>
+    // </ScrollView>
+      
   );
 }
 export default Home;
