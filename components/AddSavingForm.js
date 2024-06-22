@@ -1,5 +1,7 @@
 
 // 元々のアイテム追加の形式
+// 今は使ってない
+
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, View, Button, Keyboard } from 'react-native';
 
