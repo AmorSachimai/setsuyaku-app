@@ -55,7 +55,9 @@ export const SaveItemsList = ({
         contentContainerStyle={styles.contentContainer}
       >
         {saveItems.length === 0 ? (
-          <Text style={styles.noSavesText}>節約を記録して自分の頑張りを褒めましょう！</Text>
+          <Text style={styles.noSavesText}>
+            節約を記録して自分の頑張りを褒めましょう！
+          </Text>
         ) : (
           saveItems.map((saveItem) => (
             <SaveItem

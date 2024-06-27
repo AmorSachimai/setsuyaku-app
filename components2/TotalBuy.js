@@ -47,7 +47,6 @@
 
 // // export default TotalBuy;
 
-
 // import React from "react";
 // import { View, Text, StyleSheet } from "react-native";
 
@@ -120,14 +119,11 @@
 
 // export default TotalBuy;
 
-
-
-
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 export const TotalBuy = ({ expenseTotal }) => {
-  console.log("expenxedata:",expenseTotal);
+  console.log("expenxedata:", expenseTotal);
   // 数値に変換
   const numericTotal =
     typeof expenseTotal === "number" ? expenseTotal : parseFloat(expenseTotal);
@@ -189,4 +185,3 @@ const styles = StyleSheet.create({
     fontFamily: "Arial",
   },
 });
-

@@ -22,7 +22,7 @@ export const SaveItem = ({
         },
         { text: "OK", onPress: () => deleteSave(saveItem.docId) },
       ],
-      { cancelable: false }
+      { cancelable: false },
     );
   };
 

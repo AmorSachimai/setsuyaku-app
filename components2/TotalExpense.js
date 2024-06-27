@@ -1,4 +1,3 @@
-
 // import { collection, query, where, getDocs } from "firebase/firestore";
 // import { db } from "../firebase/Firebase";
 
@@ -71,7 +70,6 @@
 //   return totalAmount;
 // };
 
-
 // TotalExpense.js
 // TotalExpense.js
 
@@ -91,7 +89,7 @@ export const totalCalc = async (uid, selectedMonth, selectedYear) => {
       coll,
       where("uid", "==", uid),
       where("time", ">=", startOfMonth),
-      where("time", "<=", endOfMonth)
+      where("time", "<=", endOfMonth),
     );
 
     // クエリ結果を取得

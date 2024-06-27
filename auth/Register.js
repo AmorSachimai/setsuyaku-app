@@ -11,23 +11,18 @@ import {
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/Firebase";
 
-
-
-
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
   const handleRegister = async () => {
     try {
       const user = await createUserWithEmailAndPassword(auth, email, password);
-        console.log(user);
+      console.log(user);
     } catch (error) {
-        console.log(error.message);
+      console.log(error.message);
     }
   };
-
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -52,7 +47,7 @@ const Register = () => {
           autoCapitalize="none"
         />
       </View>
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.button}
         onPress={handleRegister}
         disabled={!email || !password}

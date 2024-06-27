@@ -5,7 +5,6 @@
 //   return saveAmounts.reduce((acc, cur) => (acc += cur), 0);
 // };
 
-
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebase/Firebase";
 

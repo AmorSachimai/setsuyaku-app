@@ -281,7 +281,7 @@ function Home2() {
     try {
       await deleteDoc(doc(db, "expenseItems", docId));
       setExpenseItems((prevItems) =>
-        prevItems.filter((item) => item.docId !== docId)
+        prevItems.filter((item) => item.docId !== docId),
       );
       console.log("Document successfully deleted!");
     } catch (error) {

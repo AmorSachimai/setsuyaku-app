@@ -1,6 +1,5 @@
 // // // //日付追加できるようにしたい
 
-
 import React from "react";
 import { View, Text, TouchableOpacity, Alert, StyleSheet } from "react-native";
 import { Timestamp } from "firebase/firestore";
@@ -25,7 +24,7 @@ export const ExpenseItem = ({
         },
         { text: "OK", onPress: () => deleteExpense(expenseItem.docId) },
       ],
-      { cancelable: false }
+      { cancelable: false },
     );
   };
 
@@ -57,7 +56,7 @@ export const ExpenseItem = ({
 
   const expenseDate = expenseTime.toDate();
   //console.log(expenseDate);
-  const expenseMonth = expenseDate.getMonth()+1; // 月は0から始まるので+1する
+  const expenseMonth = expenseDate.getMonth() + 1; // 月は0から始まるので+1する
   const expenseYear = expenseDate.getFullYear();
   //console.log(expenseMonth);
   //console.log(selectedMonth);
