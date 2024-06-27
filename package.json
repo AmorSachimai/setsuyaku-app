@@ -7,7 +7,8 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier --write **/*.{js,json,md,html}"
   },
   "dependencies": {
     "@firebase/app": "^0.10.2",
