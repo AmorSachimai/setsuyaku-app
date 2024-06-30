@@ -1,20 +1,19 @@
-
 // 元々のアイテム追加の形式
 // 今は使ってない
 
-import React, { useState } from 'react';
-import { StyleSheet, TextInput, View, Button, Keyboard } from 'react-native';
+import React, { useState } from "react";
+import { StyleSheet, TextInput, View, Button, Keyboard } from "react-native";
 
 function AddSavingForm() {
-  const [date, setDate] = useState('');
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState('');
+  const [date, setDate] = useState("");
+  const [name, setName] = useState("");
+  const [amount, setAmount] = useState("");
 
   const handleSubmit = () => {
     console.log("Saved", { date, name, amount });
-    setDate('');
-    setName('');
-    setAmount('');
+    setDate("");
+    setName("");
+    setAmount("");
     Keyboard.dismiss();
   };
 
@@ -38,15 +37,11 @@ function AddSavingForm() {
           value={amount}
           placeholder="金額"
           keyboardType="numeric"
-          onChangeText={text => setAmount(text.replace(/[^0-9]/g, ''))}
+          onChangeText={(text) => setAmount(text.replace(/[^0-9]/g, ""))}
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Button
-          title="セツヤク！"
-          onPress={handleSubmit}
-          color="#007BFF"
-        />
+        <Button title="セツヤク！" onPress={handleSubmit} color="#007BFF" />
       </View>
     </View>
   );
@@ -55,32 +50,32 @@ function AddSavingForm() {
 const styles = StyleSheet.create({
   formContainer: {
     padding: 20,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
     shadowOpacity: 0.2,
     shadowRadius: 5,
-    shadowColor: 'black',
+    shadowColor: "black",
     shadowOffset: { height: 0, width: 0 },
-    margin: 20
+    margin: 20,
   },
   inputRow: {
-    flexDirection: 'row', // 横並びに配置
-    justifyContent: 'space-between', // 間隔を均等に配置
-    alignItems: 'center', // 中央揃え
-    marginBottom: 20 // 入力行とボタン行の間のマージン
+    flexDirection: "row", // 横並びに配置
+    justifyContent: "space-between", // 間隔を均等に配置
+    alignItems: "center", // 中央揃え
+    marginBottom: 20, // 入力行とボタン行の間のマージン
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     padding: 10,
     marginRight: 10, // 入力フィールド間の余白
-    flex: 1 // フレックスアイテムの伸縮に応じて幅を調整
+    flex: 1, // フレックスアイテムの伸縮に応じて幅を調整
   },
   buttonContainer: {
-    flexDirection: 'row', // ボタンも横並びで配置する場合
-    justifyContent: 'center' // ボタンを中央に配置
-  }
+    flexDirection: "row", // ボタンも横並びで配置する場合
+    justifyContent: "center", // ボタンを中央に配置
+  },
 });
 
 export default AddSavingForm;

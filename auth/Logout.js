@@ -27,7 +27,7 @@ const confirmLogout = () => {
         onPress: handleLogout,
       },
     ],
-    { cancelable: false }
+    { cancelable: false },
   );
 };
 

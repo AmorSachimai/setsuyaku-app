@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 // //import { StatusBar } from 'expo-status-bar';
 // import { StyleSheet, Text, View } from 'react-native';
 // //import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -92,12 +91,10 @@ const styles = StyleSheet.create({
 // import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 // import * as React from "react";
 
-
 // export default function App() {
 
 //   const Stack = createNativeStackNavigator();
 //   const Tab = createBottomTabNavigator();
-
 
 //   return (
 //     <NavigationContainer>
@@ -130,4 +127,3 @@ const styles = StyleSheet.create({
 //     justifyContent: 'center',
 //   },
 // });
-

@@ -18,11 +18,7 @@
   "hosting": {
     "site": "setsuyaku-app-component",
     "public": "public",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   },
   "emulators": {
     "auth": {

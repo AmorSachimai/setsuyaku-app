@@ -1,7 +1,5 @@
 import { View, Button, Text, StyleSheet } from "react-native";
 
-
-
 export const Header = ({ date, setPrevMonth, setNextMonth }) => {
   const today = date;
   const year = today.getFullYear();
@@ -18,24 +16,21 @@ export const Header = ({ date, setPrevMonth, setNextMonth }) => {
       </View>
     </View>
   );
-
-
 };
-    const styles = StyleSheet.create({
-      container: {
-        backgroundColor: "lightblue",
-        padding: 10,
-      },
-      header: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-      },
-      title: {
-        fontSize: 20,
-        fontWeight: "bold",
-      },
-    });
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "lightblue",
+    padding: 10,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+});
 
-
-    export default Header;
+export default Header;

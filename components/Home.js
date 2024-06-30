@@ -26,7 +26,7 @@ function Home() {
   const [inputText, setInputText] = useState("");
   const [inputAmount, setInputAmount] = useState(0);
   const [currentUser, setCurrentUser] = useState(null);
-  const [goalAmount, setGoalAmount] = useState('');
+  const [goalAmount, setGoalAmount] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -47,7 +47,9 @@ function Home() {
     if (currentUser) {
       const fetchData = async () => {
         try {
-          const documentSnapshot = await getDoc(doc(db, "goalAmounts", currentUser.uid));
+          const documentSnapshot = await getDoc(
+            doc(db, "goalAmounts", currentUser.uid),
+          );
           if (documentSnapshot.exists()) {
             setGoalAmount(documentSnapshot.data().amount);
           }
@@ -60,10 +62,12 @@ function Home() {
   }, [currentUser]);
 
   useEffect(() => {
-    if (currentUser && goalAmount !== '') {
+    if (currentUser && goalAmount !== "") {
       const saveData = async () => {
         try {
-          await setDoc(doc(db, "goalAmounts", currentUser.uid), { amount: goalAmount });
+          await setDoc(doc(db, "goalAmounts", currentUser.uid), {
+            amount: goalAmount,
+          });
         } catch (error) {
           console.error("Error saving goal amount: ", error);
         }
@@ -135,7 +139,7 @@ function Home() {
     try {
       await deleteDoc(doc(db, "saveItems", docId));
       setSaveItems((prevItems) =>
-        prevItems.filter((item) => item.docId !== docId)
+        prevItems.filter((item) => item.docId !== docId),
       );
       console.log("Document successfully deleted!");
     } catch (error) {
@@ -152,7 +156,10 @@ function Home() {
           setNextMonth={setNextMonth}
         />
         <ScrollView>
-          <GoalAmountForm goalAmount={goalAmount} setGoalAmount={setGoalAmount} />
+          <GoalAmountForm
+            goalAmount={goalAmount}
+            setGoalAmount={setGoalAmount}
+          />
           <Balance saveTotal={saveTotal} />
           <AddItems
             saveItems={saveItems}
@@ -179,7 +186,6 @@ function Home() {
 
 export default Home;
 
-
 // import { db } from "../firebase/Firebase";
 // import { Header } from "./Header";
 // import { Balance } from "./Balance";
@@ -203,7 +209,6 @@ export default Home;
 // import firebase from "firebase/app";
 // import "firebase/firestore";
 // import { getAuth, onAuthStateChanged } from "@firebase/auth";
-
 
 // function Home() {
 //   const [date, setDate] = useState(new Date());
@@ -232,20 +237,15 @@ export default Home;
 //  }, []);
 //   // const { currentUser } = useContext(AuthContext);
 
-
-
-
 //     // useEffect(() => {
 //     //   getSaveData();
-      
+
 //     // }, []);
 
 //     // useEffect(() => {
 //     //   getSaveData();
-      
+
 //     // }, [date]);
-
-
 
 //   //for Header
 //   const setPrevMonth = () => {
@@ -278,11 +278,10 @@ export default Home;
 //   const thisMonth = today.getMonth() + 1;
 //   const saveTotal = totalCalc(saveItems);
 
-  
 //   if (loading) {
 //     return <Text>Loading...</Text>;
 //   }
-  
+
 //   // uidのために直したい
 //   if (!currentUser) {
 //     console.error("User is not authenticated");
@@ -292,10 +291,10 @@ export default Home;
 //   // uidのために直したい　ここまで
 
 //   // ここから　home2より
-  
+
 //   const addSave = async (text, amount, time) => {
 //     const docId = Math.random().toString(32).substring(2);
-//     const date = Timestamp.now();    
+//     const date = Timestamp.now();
 //     try {
 //       await addDoc(collection(db, "saveItems"), {
 //         uid,
@@ -349,8 +348,8 @@ export default Home;
 //           <ScrollView>
 //             <GoalAmountForm
 //           />
-//           <Balance 
-//             saveTotal={saveTotal}  
+//           <Balance
+//             saveTotal={saveTotal}
 //           />
 //           <AddItems
 //             saveItems={saveItems}
@@ -374,13 +373,11 @@ export default Home;
 //             uid={uid}
 //           />
 //           </ScrollView>
-          
 
-          
 //         </View>
 //       </View>
 //     // </ScrollView>
-      
+
 //   );
 // }
 // export default Home;

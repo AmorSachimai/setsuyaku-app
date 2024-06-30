@@ -1,12 +1,12 @@
 // SavingList.js
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 
 const SavingList = ({ entries }) => {
   return (
     <FlatList
       data={entries}
-      keyExtractor={item => item.id}
+      keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <View style={styles.listItem}>
           <Text style={styles.itemText}>{item.date}</Text>
@@ -16,20 +16,20 @@ const SavingList = ({ entries }) => {
       )}
     />
   );
-}
+};
 
 const styles = StyleSheet.create({
   listItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc'
+    borderBottomColor: "#ccc",
   },
   itemText: {
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });
 
 export default SavingList;
