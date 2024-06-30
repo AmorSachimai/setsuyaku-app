@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
-import ExpenseItem from "./ExpenseItem"; // パスが正しいことを確認してください
+import ExpenseItem from "./ExpenseItem"; 
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../firebase/Firebase"; // パスが正しいことを確認してください
+import { db } from "../firebase/Firebase"; 
 
 export const BuyItemsList = ({
   deleteExpense,
@@ -16,9 +16,9 @@ export const BuyItemsList = ({
   const scrollViewRef = useRef(null);
 
   useEffect(() => {
-    // 支出項目を取得し、リアルタイム更新にサブスクライブする関数
+    
     const fetchExpenses = () => {
-      // uidでフィルタリングするためのクエリを作成
+      
       const q = query(collection(db, "expenseItems"), where("uid", "==", uid));
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const expenses = [];
@@ -26,20 +26,20 @@ export const BuyItemsList = ({
           expenses.push({ ...doc.data(), docId: doc.id });
         });
 
-        // 日付で支出項目をソート（expenseItem.timeがFirestoreのTimestampであることを仮定）
+        
         expenses.sort((a, b) => b.time.seconds - a.time.seconds);
 
         setExpenseItems(expenses);
         setLoading(false);
       });
 
-      // コンポーネントがアンマウントされるときにリアルタイム更新のサブスクライブを解除するクリーンアップ関数
+      
       return unsubscribe;
     };
 
-    // fetchExpenses関数を呼び出してデータの取得と更新のサブスクライブを開始
+    
     fetchExpenses();
-  }, [uid]); // uidが変更されたときにのみ実行
+  }, [uid]); 
 
   if (loading) {
     return <Text>Loading...</Text>;
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     height: 300,
   },
   contentContainer: {
-    paddingBottom: 80, // 必要に応じて調整
+    paddingBottom: 80, 
   },
   noExpensesText: {
     fontSize: 16,

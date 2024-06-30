@@ -32,7 +32,7 @@ export const ExpenseItem = ({
   const formatDate = (timestamp) => {
     if (timestamp instanceof Timestamp) {
       const date = timestamp.toDate();
-      return date.toLocaleString(); // 日付と時刻をローカライズされた文字列に変換
+      return date.toLocaleString(); 
     }
     return "";
   };
@@ -56,7 +56,7 @@ export const ExpenseItem = ({
 
   const expenseDate = expenseTime.toDate();
   //console.log(expenseDate);
-  const expenseMonth = expenseDate.getMonth() + 1; // 月は0から始まるので+1する
+  const expenseMonth = expenseDate.getMonth() + 1; // 月は0から始まるので+1
   const expenseYear = expenseDate.getFullYear();
   //console.log(expenseMonth);
   //console.log(selectedMonth);
