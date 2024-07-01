@@ -2,7 +2,7 @@
 
 ## 概要
 
-Setsuyaku Appは、ユーザーが節約額を確認できるアプリです。このアプリケーションを通じて、節約目標を設定し、達成状況をモニターすることができます。
+Setsuyaku Appは、ユーザーが節約額を確認できるアプリです。このアプリケーションを通じて、節約目標を設定し、達成状況をモニターすることができます!
 
 ## 環境設定
 
@@ -23,7 +23,7 @@ Setsuyaku Appは、ユーザーが節約額を確認できるアプリです。�
    プロジェクトをクローンまたはダウンロードします。
 
    ```bash
-   git clone https://github.com/ukasama47/setsuyaku-app.git
+   git clone https://github.com/ukasama47/setsuyaku-app.git 
    cd setsuyaku-app
    ```
 
@@ -43,7 +43,7 @@ Setsuyaku Appは、ユーザーが節約額を確認できるアプリです。�
 
    2.プロジェクト設定から、Firebase SDKの設定情報を取得します（firebaseConfig）。
 
-   3.src/firebaseConfig.js ファイルを作成し、以下のように設定情報を追加します。
+   3.firebase/firebaseConfig.js ファイルを作成し、以下のように設定情報を追加します。
 
    ```javascript
    const firebaseConfig = {
