@@ -70,7 +70,7 @@ Setsuyaku Appは、ユーザーが節約額を確認できるアプリです。�
    または
 
    ```bash
-   npx expo --tunnel
+   npx expo start --tunnel
      ```
 
 
