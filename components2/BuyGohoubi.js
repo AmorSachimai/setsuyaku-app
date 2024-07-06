@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Timestamp } from "firebase/firestore";
+import { format, startOfMonth, endOfMonth } from "date-fns";
+import { ja } from "date-fns/locale";
 
 export const BuyGohoubi = ({
   addExpense,
@@ -51,6 +53,10 @@ export const BuyGohoubi = ({
   };
 
   const thisMonthForm = () => {
+    const formattedDate = format(date, "yyyy/MM/dd", { locale: ja });
+    const minimumDate = startOfMonth(new Date()); // 今月の初日
+    const maximumDate = endOfMonth(new Date()); // 今月の最終日
+
     return (
       <View style={styles.container}>
         <Text style={styles.dialogTitle}>ご褒美を買う</Text>
@@ -93,10 +99,13 @@ export const BuyGohoubi = ({
                 setShowDatePicker(false);
                 setDate(currentDate);
               }}
+              minimumDate={minimumDate} // 今月の初日を選択不可に設定
+              maximumDate={maximumDate} // 今月の最終日を選択不可に設定
+              locale="ja-JP" // デバイスのロケールに依存
             />
           )}
           <Text style={styles.selectedDateText}>
-            選択した日付: {date.toDateString()}
+            選択した日付: {formattedDate}
           </Text>
         </View>
         <View style={styles.buttonContainer}>
