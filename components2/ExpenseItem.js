@@ -1,8 +1,14 @@
-// // // // // //日付追加できるようにしたい
-
 // import React from "react";
-// import { View, Text, TouchableOpacity, Alert, StyleSheet } from "react-native";
+// import {
+//   View,
+//   Text,
+//   TouchableOpacity,
+//   Alert,
+//   StyleSheet,
+//   Animated,
+// } from "react-native";
 // import { Timestamp } from "firebase/firestore";
+// import { Swipeable } from "react-native-gesture-handler";
 
 // export const ExpenseItem = ({
 //   deleteExpense,
@@ -14,30 +20,18 @@
 //   selectedYear,
 // }) => {
 //   const deleteHandler = () => {
-//     if (
-//       selectedMonth === expenseTime.toDate().getMonth() + 1 &&
-//       selectedYear === expenseTime.toDate().getFullYear()
-//     ) {
-//       Alert.alert(
-//         "削除の確認",
-//         "本当に削除しますか？",
-//         [
-//           {
-//             text: "キャンセル",
-//             style: "cancel",
-//           },
-//           { text: "OK", onPress: () => deleteExpense(expenseItem.docId) },
-//         ],
-//         { cancelable: false }
-//       );
-//     } else {
-//       Alert.alert(
-//         "削除できません",
-//         "過去のデータは削除できません。",
-//         [{ text: "OK" }],
-//         { cancelable: false }
-//       );
-//     }
+//     Alert.alert(
+//       "削除の確認",
+//       "本当に削除しますか？",
+//       [
+//         {
+//           text: "キャンセル",
+//           style: "cancel",
+//         },
+//         { text: "OK", onPress: () => deleteExpense(expenseItem.docId) },
+//       ],
+//       { cancelable: false }
+//     );
 //   };
 
 //   // Timestampオブジェクトを適切な日付文字列に変換する関数
@@ -49,8 +43,41 @@
 //     return "";
 //   };
 
-//   const showExpenseItem = () => {
+//   const renderRightActions = (progress, dragX) => {
+//     const trans = dragX.interpolate({
+//       inputRange: [0, 50, 100],
+//       outputRange: [0, 0.2, 1],
+//     });
 //     return (
+//       <TouchableOpacity onPress={deleteHandler}>
+//         <Animated.View
+//           style={[
+//             styles.deleteButton,
+//             {
+//               transform: [{ translateX: progress.interpolate({
+//                 inputRange: [0, 100],
+//                 outputRange: [0, 100],
+//                 extrapolate: 'clamp',
+//               }) }],
+//               opacity: progress.interpolate({
+//                 inputRange: [0, 100],
+//                 outputRange: [1, 0],
+//                 extrapolate: 'clamp',
+//               }),
+//             },
+//           ]}
+//         >
+//           <Text style={styles.deleteButtonText}>×</Text>
+//         </Animated.View>
+//       </TouchableOpacity>
+//     );
+//   };
+
+//   return (
+//     <Swipeable
+//       renderRightActions={renderRightActions}
+//       containerStyle={styles.swipeableContainer}
+//     >
 //       <View style={styles.expenseList}>
 //         <View style={styles.textContainer}>
 //           <Text style={styles.text}>{expenseText}</Text>
@@ -59,30 +86,22 @@
 //         <Text style={styles.moneyMinus}>
 //           {Number(expenseAmount).toLocaleString()}円
 //         </Text>
-//         {selectedMonth === expenseTime.toDate().getMonth() + 1 &&
-//           selectedYear === expenseTime.toDate().getFullYear() && (
-//             <TouchableOpacity
-//               style={styles.deleteButton}
-//               onPress={deleteHandler}
-//             >
-//               <Text style={styles.deleteButtonText}>×</Text>
-//             </TouchableOpacity>
-//           )}
 //       </View>
-//     );
-//   };
-
-//   return <View>{showExpenseItem()}</View>;
+//     </Swipeable>
+//   );
 // };
 
 // const styles = StyleSheet.create({
+//   swipeableContainer: {
+//     backgroundColor: "#fff",
+//     borderBottomWidth: 1,
+//     borderBottomColor: "#ccc",
+//   },
 //   expenseList: {
 //     flexDirection: "row",
 //     justifyContent: "space-between",
 //     alignItems: "center",
 //     padding: 10,
-//     borderBottomWidth: 1,
-//     borderBottomColor: "#ccc",
 //   },
 //   textContainer: {
 //     flex: 1,
@@ -100,20 +119,29 @@
 //   },
 //   deleteButton: {
 //     backgroundColor: "red",
-//     borderRadius: 50,
-//     padding: 5,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     width: 75,
+//     height: "100%",
 //   },
 //   deleteButtonText: {
 //     color: "white",
-//     fontSize: 16,
+//     fontSize: 20,
 //   },
 // });
 
 // export default ExpenseItem;
-
 import React from "react";
-import { View, Text, TouchableOpacity, Alert, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  StyleSheet,
+  Animated,
+} from "react-native";
 import { Timestamp } from "firebase/firestore";
+import { Swipeable } from "react-native-gesture-handler";
 
 export const ExpenseItem = ({
   deleteExpense,
@@ -125,30 +153,18 @@ export const ExpenseItem = ({
   selectedYear,
 }) => {
   const deleteHandler = () => {
-    if (
-      selectedMonth === expenseTime.toDate().getMonth() + 1 &&
-      selectedYear === expenseTime.toDate().getFullYear()
-    ) {
-      Alert.alert(
-        "削除の確認",
-        "本当に削除しますか？",
-        [
-          {
-            text: "キャンセル",
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => deleteExpense(expenseItem.docId) },
-        ],
-        { cancelable: false }
-      );
-    } else {
-      Alert.alert(
-        "削除できません",
-        "過去のデータは削除できません。",
-        [{ text: "OK" }],
-        { cancelable: false }
-      );
-    }
+    Alert.alert(
+      "削除の確認",
+      "本当に削除しますか？",
+      [
+        {
+          text: "キャンセル",
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => deleteExpense(expenseItem.docId) },
+      ],
+      { cancelable: false }
+    );
   };
 
   // Timestampオブジェクトを適切な日付文字列に変換する関数
@@ -160,14 +176,57 @@ export const ExpenseItem = ({
     return "";
   };
 
-  const showExpenseItem = () => {
+  const renderRightActions = (progress, dragX) => {
+    const trans = dragX.interpolate({
+      inputRange: [0, 50, 100],
+      outputRange: [0, 0.2, 1],
+    });
+    return (
+      <TouchableOpacity onPress={deleteHandler}>
+        <Animated.View
+          style={[
+            styles.deleteButton,
+            {
+              transform: [
+                {
+                  translateX: progress.interpolate({
+                    inputRange: [0, 100],
+                    outputRange: [0, 100],
+                    extrapolate: "clamp",
+                  }),
+                },
+              ],
+              opacity: progress.interpolate({
+                inputRange: [0, 100],
+                outputRange: [1, 0],
+                extrapolate: "clamp",
+              }),
+            },
+          ]}
+        >
+          <Text style={styles.deleteButtonText}>×</Text>
+        </Animated.View>
+      </TouchableOpacity>
+    );
+  };
+
+  // 項目を表示する条件を設定する
+  const shouldDisplay = () => {
     const expenseDate = expenseTime.toDate();
     const expenseMonth = expenseDate.getMonth() + 1; // 月は0から始まるので+1
     const expenseYear = expenseDate.getFullYear();
 
-    // 指定された月と年に一致する場合のみ表示
-    if (selectedMonth === expenseMonth && selectedYear === expenseYear) {
-      return (
+    // 選択された月と年と一致する場合にtrueを返す
+    return selectedMonth === expenseMonth && selectedYear === expenseYear;
+  };
+
+  // 表示条件に応じて項目をレンダリングする
+  if (shouldDisplay()) {
+    return (
+      <Swipeable
+        renderRightActions={renderRightActions}
+        containerStyle={styles.swipeableContainer}
+      >
         <View style={styles.expenseList}>
           <View style={styles.textContainer}>
             <Text style={styles.text}>{expenseText}</Text>
@@ -176,27 +235,25 @@ export const ExpenseItem = ({
           <Text style={styles.moneyMinus}>
             {Number(expenseAmount).toLocaleString()}円
           </Text>
-          <TouchableOpacity style={styles.deleteButton} onPress={deleteHandler}>
-            <Text style={styles.deleteButtonText}>×</Text>
-          </TouchableOpacity>
         </View>
-      );
-    }
-
-    return null;
-  };
-
-  return <View>{showExpenseItem()}</View>;
+      </Swipeable>
+    );
+  } else {
+    return null; // 条件に合わない場合は何もレンダリングしない
+  }
 };
 
 const styles = StyleSheet.create({
+  swipeableContainer: {
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
   expenseList: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
   },
   textContainer: {
     flex: 1,
@@ -214,12 +271,14 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     backgroundColor: "red",
-    borderRadius: 50,
-    padding: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 75,
+    height: "100%",
   },
   deleteButtonText: {
     color: "white",
-    fontSize: 16,
+    fontSize: 20,
   },
 });
 
