@@ -17,7 +17,8 @@ import {
 } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { totalCalc } from "./TotalSave";
+import { TotalSave } from "./TotalSave"; // import { TotalBuy } from "./TotalBuy";
+import { totalCalc } from "./TotalSave"; // import { totalCalc } from "./TotalExpense";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
 
 function Home() {
@@ -28,6 +29,8 @@ function Home() {
   const [currentUser, setCurrentUser] = useState(null);
   const [goalAmount, setGoalAmount] = useState("");
   const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState(0);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
     const auth = getAuth();
@@ -76,32 +79,48 @@ function Home() {
     }
   }, [goalAmount, currentUser]);
 
+  useEffect(() => {
+    if (currentUser) {
+      fetchTotal(currentUser.uid, date.getMonth() + 1, selectedYear); // ユーザー認証後に合計を取得
+    }
+  }, [date, selectedYear, currentUser]);
+
+  const fetchTotal = async (uid, selectedMonth, selectedYear) => {
+    try {
+      const totalAmount = await totalCalc(uid, selectedMonth, selectedYear);
+      setTotal(totalAmount);
+    } catch (error) {
+      console.error("Error calculating total amount:", error);
+    }
+  };
+
   const setPrevMonth = () => {
-    const year = date.getFullYear();
-    const month = date.getMonth() - 1;
-    const day = date.getDate();
-    setDate(new Date(year, month, day));
+    setDate((prevDate) => {
+      const prevMonth = prevDate.getMonth() - 1;
+      const year =
+        prevMonth === -1 ? prevDate.getFullYear() - 1 : prevDate.getFullYear();
+      setSelectedYear(year);
+      return new Date(year, prevMonth === -1 ? 11 : prevMonth, 1);
+    });
   };
 
   const setNextMonth = () => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    setDate(new Date(year, month, day));
+    setDate((prevDate) => {
+      const nextMonth = prevDate.getMonth() + 1;
+      const year =
+        nextMonth === 12 ? prevDate.getFullYear() + 1 : prevDate.getFullYear();
+      setSelectedYear(year);
+      return new Date(year, nextMonth === 12 ? 0 : nextMonth, 1);
+    });
   };
 
-  const startOfMonth = (date) => {
-    return new Date(date.getFullYear(), date.getMonth(), 1);
-  };
-
-  const endOfMonth = (date) => {
-    return new Date(date.getFullYear(), date.getMonth() + 1, 0);
-  };
 
   const selectedMonth = date.getMonth() + 1;
   const today = new Date();
   const thisMonth = today.getMonth() + 1;
-  const saveTotal = totalCalc(saveItems);
+  
+  // 節約額の合計もべつで表示出来たらいいかも？
+  // const saveTotal = totalCalc(saveItems);
 
   if (loading) {
     return <Text>Loading...</Text>;
@@ -154,13 +173,14 @@ function Home() {
           date={date}
           setPrevMonth={setPrevMonth}
           setNextMonth={setNextMonth}
+          selectedYear={selectedYear}
         />
         <ScrollView>
           <GoalAmountForm
             goalAmount={goalAmount}
             setGoalAmount={setGoalAmount}
           />
-          <Balance saveTotal={saveTotal} />
+          <Balance saveTotal={total} />
           <AddItems
             saveItems={saveItems}
             addSave={addSave}
@@ -175,6 +195,7 @@ function Home() {
             deleteSave={deleteSave}
             saveItems={saveItems}
             selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
             thisMonth={thisMonth}
             uid={uid}
           />
