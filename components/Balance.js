@@ -2,11 +2,14 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 export const Balance = ({ saveTotal }) => {
+
+  
   const balance = saveTotal;
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>節約額</Text>
+      {/* <Text style={styles.title}>今月の節約額</Text> */}
       <View style={styles.balanceContainer}>
         <Text style={styles.balanceText}>
           {new Intl.NumberFormat().format(balance)}
