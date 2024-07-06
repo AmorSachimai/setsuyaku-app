@@ -139,7 +139,7 @@ function Home2() {
         selectedYear={selectedYear}
       ></Header2>
 
-      <ScrollView style ={{height : 1000}}/>{/*ここおかしい */}
+      <ScrollView style ={{height : 1000}}>{/*ここおかしい */}
         <TotalBuy expenseTotal={total} />
 
         <BuyGohoubi
