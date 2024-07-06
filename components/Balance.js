@@ -1,10 +1,12 @@
+// TotalBuyと対応
+// 今は、TotalSaveに統合
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-export const Balance = ({ saveTotal }) => {
+export const Balance = ({ saveTotalMonth }) => {
 
   
-  const balance = saveTotal;
+  const balance = saveTotalMonth;
 
   return (
     <View style={styles.container}>
