@@ -2,18 +2,18 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-export const TotalSave = ({ saveTotal }) => {
-  console.log("expenxedata:", saveTotal);
+export const TotalMonthSave = ({ saveTotalMonth }) => {
+  console.log("expenxedata:", saveTotalMonth);
   // 数値に変換
   const numericTotal =
-    typeof saveTotal === "number" ? saveTotal : parseFloat(saveTotal);
+    typeof saveTotalMonth === "number" ? saveTotalMonth : parseFloat(saveTotalMonth);
 
   // 数値が有効かどうか確認
   if (isNaN(numericTotal)) {
-    console.error("Invalid saveTotal value:", saveTotal);
+    console.error("Invalid saveTotalMonth value:", saveTotalMonth);
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>使ったお金</Text>
+        <Text style={styles.title}>今月の節約額</Text>
         <Text style={styles.error}>無効な値です</Text>
       </View>
     );
@@ -24,7 +24,7 @@ export const TotalSave = ({ saveTotal }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>使ったお金</Text>
+      <Text style={styles.title}>今月の節約額</Text>
       <View style={styles.totalContainer}>
         <Text style={styles.totalText}>{formattedTotalAmount}</Text>
         <Text style={styles.currency}>円</Text>
