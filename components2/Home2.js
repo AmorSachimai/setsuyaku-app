@@ -163,8 +163,7 @@ function Home2() {
         />
         <View style = {{flexDirection: "row", // 横並びにする
     justifyContent: "space-around", // 中央寄せにする（必要に応じて適宜調整）
-    padding: 10,
-    backgroundColor: "#fff", }}> 
+    padding: 10, }}> 
         <Logout />
         {/* <InfoScreen/> */}
         
