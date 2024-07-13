@@ -66,7 +66,7 @@ export const SaveItem = ({
               ],
               opacity: progress.interpolate({
                 inputRange: [0, 100],
-                outputRange: [1, 0],
+                outputRange: [0, 100],
                 extrapolate: "clamp",
               }),
             },

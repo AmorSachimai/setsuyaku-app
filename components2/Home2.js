@@ -18,7 +18,7 @@ import { BuyGohoubi } from "./BuyGohoubi";
 import { BuyItemsList } from "./BuyItemList";
 import { TotalBuy } from "./TotalBuy";
 import { totalCalc } from "./TotalExpense"; // totalCalc 関数をインポート
-
+import { InfoScreen } from "./InfoScreen";
 function Home2() {
   const [date, setDate] = useState(new Date());
   const [expenseItems, setExpenseItems] = useState([]);
@@ -139,7 +139,7 @@ function Home2() {
         selectedYear={selectedYear}
       ></Header2>
 
-      <ScrollView style ={{height : 1000}}>{/*ここおかしい */}
+      <ScrollView style={{ marginBottom: 70 }}>{/*ここおかしい */}
         <TotalBuy expenseTotal={total} />
 
         <BuyGohoubi
@@ -161,7 +161,15 @@ function Home2() {
           thisMonth={new Date().getMonth() + 1}
           uid={uid}
         />
+        <View style = {{flexDirection: "row", // 横並びにする
+    justifyContent: "space-around", // 中央寄せにする（必要に応じて適宜調整）
+    padding: 10,
+    backgroundColor: "#fff", }}> 
         <Logout />
+        {/* <InfoScreen/> */}
+        
+
+        </View>
       </ScrollView>
     </View>
   );
