@@ -11,7 +11,7 @@ import Home from "./components/Home";
 import Home2 from "./components2/Home2";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
-
+import InfoScreen from "./components2/InfoScreen"
 const auth = getAuth(app);
 
 export default function App() {
@@ -46,6 +46,7 @@ export default function App() {
         <Stack.Navigator>
           {user ? (
             <Stack.Screen name="Authenticated" options={{ headerShown: false }}>
+            
               {() => (
                 <Tab.Navigator
                   screenOptions={{
@@ -56,13 +57,16 @@ export default function App() {
                   <Tab.Screen name="ごほうび" component={Home2} />
                 </Tab.Navigator>
               )}
+              
             </Stack.Screen>
+            
           ) : (
             <>
               <Stack.Screen name="ログイン" component={Login} />
               <Stack.Screen name="登録" component={Register} />
             </>
           )}
+          <Stack.Screen name="アプリ情報" component={InfoScreen} />  
         </Stack.Navigator>
       </NavigationContainer>
        </GestureHandlerRootView>
