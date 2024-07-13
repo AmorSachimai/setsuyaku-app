@@ -1,7 +1,7 @@
 // home.js
 import { db } from "../firebase/Firebase";
 import { Header } from "./Header";
-import { Balance } from "./Balance";
+// import { Balance } from "./Balance";
 import GoalAmountForm from "./GoalAmountForm";
 import { AddItems } from "./AddItems";
 import { SaveItemsList } from "./SaveItemList";
@@ -11,12 +11,12 @@ import {
   addDoc,
   doc,
   setDoc,
-  getDoc,
+  getDoc, // 目標金額用
   Timestamp,
   deleteDoc,
 } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { Text, View, ScrollView } from "react-native";
 import { TotalMonthSave } from "./TotalSave"; // import { TotalBuy } from "./TotalBuy";
 import { totalCalc } from "./TotalSave"; // import { totalCalc } from "./TotalExpense";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
@@ -135,7 +135,9 @@ function Home() {
 
   const addSave = async (text, amount, time) => {
     const docId = Math.random().toString(32).substring(2);
-    const date = Timestamp.now();
+    const timestamp = Timestamp.now();
+    const date = Timestamp.toDate();
+
     try {
       await addDoc(collection(db, "saveItems"), {
         uid,
@@ -143,12 +145,14 @@ function Home() {
         amount,
         time,
         docId,
-        date,
+        timestamp,
       });
 
       const newSaveItem = { uid, text, amount, docId, date };
       setSaveItems((prevItems) => [...prevItems, newSaveItem]);
       console.log("Document written with ID: ", docId);
+
+      await fetchTotal(currentUser.uid, date.getMonth() + 1, selectedYear);
     } catch (error) {
       console.error("Error adding document: ", error);
     }
