@@ -136,7 +136,7 @@ function Home() {
   const addSave = async (text, amount, time) => {
     const docId = Math.random().toString(32).substring(2);
     const timestamp = Timestamp.now();
-    const date = Timestamp.toDate();
+    const date = timestamp.toDate();
 
     try {
       await addDoc(collection(db, "saveItems"), {
